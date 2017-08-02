@@ -7,7 +7,7 @@ const session = require('express-session');
 
 const UsernameRoutes = require('./main');
 const Models = require('./models');
-const models = Models(process.env.MONGO_DB_URL || 'mongodb://localhost/greetings');
+const models = Models(process.env.MONGO_DB_URL || 'mongodb://localhost/waiters');
 const usernameRoutes = UsernameRoutes(models);
 const app = express();
 
@@ -27,10 +27,11 @@ app.use(bodyParser.json())
 app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 * 30}}));
 app.use(flash()); // set up http session
 
-// Login page
-app.get('/', function(req, res){
-    res.redirect('/login')
-})
+// registration page
+app.get('/', usernameRoutes.home);
+app.post('/', usernameRoutes.home);
+
+// login page
 app.get('/login', usernameRoutes.login);
 app.post('/login', usernameRoutes.login);
 
