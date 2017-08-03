@@ -46,8 +46,6 @@ app.post('/waiters', usernameRoutes.waiters);
 // app.get('/days', );
 
 
-
-
 var port = app.get("port");
 
 app.listen(port, function() {

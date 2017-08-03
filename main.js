@@ -1,27 +1,5 @@
 module.exports = function(models) {
 
-    const login = function(req, res, done) {
-
-        var username = req.body.username1;
-        // console.log('User: ' + username);
-
-        models.Username.findOne({
-            username: req.body.username1
-        }, function(err, theUsername) {
-            if (err) {
-                return done(err)
-            }
-            // console.log('Details: ' + theUsername);
-            res.render('login');
-        });
-
-    };
-
-
-    const waiters = function(req, res, done) {
-        res.render('waiters');
-    };
-
     const home = function(req, res, done) {
 
         var usernameData = {
@@ -37,8 +15,8 @@ module.exports = function(models) {
 
             models.Username.findOne({
                 username: req.body.username
-            }, function(err, theUsername) {
-                
+            }, function(err, user) {
+
                 if (err) {
                     return done(err)
                 } else {
@@ -63,6 +41,41 @@ module.exports = function(models) {
             });
         }
     };
+
+    const login = function(req, res, done) {
+
+        var username = req.body.username1;
+        var password = req.body.password1;
+
+            models.Username.findOne({
+                username: req.body.username1
+            }, function(err, user) {
+
+                if (err) {
+                    return done(err)
+                }
+
+                if (user) {
+
+
+                    // if (passport !== user.password) {
+                    //     return done(err)
+                    // }
+                    // else {
+                    // }
+
+                    res.render('waiters');
+                }
+
+                res.render('login');
+            });
+
+    };
+
+    const waiters = function(req, res, done) {
+        res.render('waiters');
+    };
+
 
     return {
         login,
