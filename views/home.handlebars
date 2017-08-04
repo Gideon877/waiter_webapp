@@ -45,15 +45,33 @@
                 </div>
             </div>
             <div class="col-sm-8 text-left">
-                <h1>Teboho's Coffee Staff Page</h1>
+                <h1>Tebogo's Coffee Shop</h1>
                 <p>You can taste it in our seasonally inspired menus filled with innovative dishes, generous portions and bottomless drinks. You experience it through our easily accessible restaurants, located countrywide, and our welcoming and friendly
                     service.
                 </p>
                 <hr>
-                <!-- <div class="container"> -->
+
                 <h2><b>Join our team.</b></h2>
 
                 <p>The form below contains two input elements; one of type text and one of type password:</p>
+
+                {{#if messages.error}}
+                    <div class="error">
+                        {{messages.error}}
+                        <br>
+                        <br>
+                    </div>
+
+                {{/if}}
+
+                {{#if messages.success}}
+                    <div class="success">
+                        {{messages.success}}
+                        <br>
+                        <br>
+                    </div>
+                {{/if}}
+
                 <form action="/" method="post">
                     <div class="row">
                         <div class="col-sm-4">
@@ -89,7 +107,6 @@
                         <button type="submit" class="signupbtn">Sign Up</button>
                     </div>
                 </form>
-                <!-- </div> -->
 
             </div>
 

@@ -7,11 +7,9 @@ module.exports = function(models) {
         }
 
         if (!usernameData || !usernameData.username) {
-            req.flash('error', 'Username should not be blank');
+            req.flash('error', 'Registration box should not be blank!');
             res.render('home')
-        }
-
-        else {
+        } else {
 
             models.Username.findOne({
                 username: req.body.username
@@ -19,6 +17,10 @@ module.exports = function(models) {
 
                 if (err) {
                     return done(err)
+                }
+                if (user) {
+                    req.flash('error', 'Username already taken!');
+                    res.render('home')
                 } else {
                     models.Username.create({
                         name: req.body.name,
@@ -34,10 +36,15 @@ module.exports = function(models) {
                             if (err) {
                                 return done(err);
                             }
+
+                            if (results) {
+                                req.flash('success', 'Registration complete!');
+                                res.render('home')
+                            }
                         });
                     });
+                    res.render('home');
                 };
-                res.render('home');
             });
         }
     };
@@ -47,29 +54,44 @@ module.exports = function(models) {
         var username = req.body.username1;
         var password = req.body.password1;
 
-            models.Username.findOne({
-                username: req.body.username1
-            }, function(err, user) {
+        console.log('username', username);
 
-                if (err) {
-                    return done(err)
+        models.Username.findOne({
+            username: req.body.username1
+        }, function(err, user) {
+
+            console.log('user', user);
+
+            if (err) {
+                return done(err)
+            }
+
+            if (user) {
+
+                // req.session.user = user;
+
+                console.log("User K: " + user); //works
+                // res.json({
+                //     user: user
+                // });
+
+                if (password !== user.password) {
+                    req.flash('error', 'Wrong password or username!');
+                    res.render('login');
+                } else if (password == user.password) {
+                    console.log('You are logged in');
+
+                    res.redirect('waiters')
                 }
 
-                if (user) {
+            }
 
-
-                    // if (passport !== user.password) {
-                    //     return done(err)
-                    // }
-                    // else {
-                    // }
-
-                    res.render('waiters');
-                }
-
+            if (!user) {
+                req.flash('error', "Username should not be blank!");
+                // console.log("Username doesn't exist!");
                 res.render('login');
-            });
-
+            }
+        });
     };
 
     const waiters = function(req, res, done) {
