@@ -24,7 +24,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
-app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 * 30}, resave: false, saveUninitialized: true}));
+app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: true}));
 app.use(flash()); // set up http session
 
 // registration page
@@ -36,11 +36,11 @@ app.get('/login', usernameRoutes.login);
 app.post('/login', usernameRoutes.login);
 
 // waiter page
-// app.get('/waiters/:user_id', usernameRoutes.waiters);
-// app.post('/waiters/:user_id', usernameRoutes.waiters);
+app.get('/waiters/:user_id', usernameRoutes.waiters);
+app.post('/waiters/:user_id', usernameRoutes.waiters);
 
-app.get('/waiters', usernameRoutes.waiters);
-app.post('/waiters', usernameRoutes.waiters);
+// app.get('/waiters', usernameRoutes.waiters);
+// app.post('/waiters', usernameRoutes.waiters);
 
 // admin page
 // app.get('/days', );
@@ -49,5 +49,5 @@ app.post('/waiters', usernameRoutes.waiters);
 var port = app.get("port");
 
 app.listen(port, function() {
-    console.log('App started on port: ' + port)
+    console.log('Server started at http://localhost:' + port)
 });

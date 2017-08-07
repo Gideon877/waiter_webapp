@@ -51,51 +51,74 @@ module.exports = function(models) {
 
     const login = function(req, res, done) {
 
-        var username = req.body.username1;
-        var password = req.body.password1;
+        var userData = {
+            username: req.body.username1,
+            password: req.body.password1
+        }
 
-        console.log('username', username);
+        if (userData.username !== undefined) {
+            var password = req.body.password1
+
+            models.Username.findOne({
+                username: req.body.username1
+            }, function(err, user) {
+
+                if (err) {
+                    return done(err)
+                }
+
+                if (user) {
+                    console.log('user', user);
+                    if (password !== user.password) {
+                        req.flash('error', 'Wrong password or username!');
+                        console.log('user_id', user._id);
+                        res.render('login');
+                    }
+
+                    else if (password == user.password) {
+                        console.log('You are logged in as: ' + user.username);
+                        res.redirect('waiters/' + user.id)
+                    }
+                }
+                if (!user || user == null) {
+                    req.flash('error', 'No user found with this name!');
+                    res.render('login')
+                }
+            });
+        }
+
+        if (userData.username == undefined) {
+            req.flash('error', "Username should not be blank!");
+            res.render('login');
+        }
+    }
+
+    const waiters = function(req, res, done) {
+        var user_id = req.params.user_id;
 
         models.Username.findOne({
-            username: req.body.username1
+            '_id': user_id
         }, function(err, user) {
-
-            console.log('user', user);
 
             if (err) {
                 return done(err)
             }
 
-            if (user) {
-
-                // req.session.user = user;
-
-                console.log("User K: " + user); //works
-                // res.json({
-                //     user: user
-                // });
-
-                if (password !== user.password) {
-                    req.flash('error', 'Wrong password or username!');
-                    res.render('login');
-                } else if (password == user.password) {
-                    console.log('You are logged in');
-
-                    res.redirect('waiters')
-                }
-
+            if (!user || user == null) {
+                req.flash('error', 'No user found with this name!');
+                res.render('login')
             }
 
-            if (!user) {
-                req.flash('error', "Username should not be blank!");
-                // console.log("Username doesn't exist!");
-                res.render('login');
+            if (user && user !== null) {
+
+                var outputMessage = "Welcome " + user.name + ".";
+
+                var data_3 = {
+                    outputMessage: outputMessage
+                }
+                res.render('waiters', data_3);
             }
         });
-    };
-
-    const waiters = function(req, res, done) {
-        res.render('waiters');
     };
 
 
