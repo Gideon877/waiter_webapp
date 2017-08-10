@@ -6,7 +6,8 @@ module.exports = function(mongoUrl){
     const Username = mongoose.model('Username', {
         name: String,
         username: { type: String, required: true, unique: true },
-        password: { type: String, required: true }
+        password: { type: String, required: true },
+        days: Array
     });
 
     return {

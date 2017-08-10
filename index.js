@@ -24,12 +24,17 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
-app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: true}));
+app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 * 30}, resave: true, saveUninitialized: true}));
 app.use(flash()); // set up http session
 
 // registration page
 app.get('/', usernameRoutes.home);
 app.post('/', usernameRoutes.home);
+
+app.get('/logout', function(req, res){
+    console.log('Session', req.session);
+    res.redirect('/')
+});
 
 // login page
 app.get('/login', usernameRoutes.login);
@@ -39,11 +44,11 @@ app.post('/login', usernameRoutes.login);
 app.get('/waiters/:user_id', usernameRoutes.waiters);
 app.post('/waiters/:user_id', usernameRoutes.waiters);
 
-// app.get('/waiters', usernameRoutes.waiters);
-// app.post('/waiters', usernameRoutes.waiters);
 
 // admin page
-// app.get('/days', );
+app.get('/days', function(req, res){
+    res.render('days')
+});
 
 
 var port = app.get("port");

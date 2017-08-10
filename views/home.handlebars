@@ -6,117 +6,110 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Alegreya|Crimson+Text|PT+Serif|Playfair+Display" rel="stylesheet">
 </head>
+
 
 <body>
 
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                  </button>
-                <a class="navbar-brand" href="#">Logo</a>
-            </div>
-            <div class="collapse navbar-collapse" id="myNavbar">
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">Home</a></li>
-                    <li><a href="#">About</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#home" data-toggle="tab" aria-expanded="true">Home</a></li>
+        <li class=""><a href="#registration" data-toggle="tab" aria-expanded="false">Register</a></li>
+        <li class="disabled"><a>Disabled</a></li>
+        <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+    </ul>
 
-    <div class="container-fluid text-center">
-        <div class="row content">
-            <div class="col-sm-2 sidenav">
-                <div class="well">
-                    <p>ADS</p>
-                </div>
-                <div class="well">
-                    <p>ADS</p>
-                </div>
-            </div>
-            <div class="col-sm-8 text-left">
-                <h1>Tebogo's Coffee Shop</h1>
-                <p>You can taste it in our seasonally inspired menus filled with innovative dishes, generous portions and bottomless drinks. You experience it through our easily accessible restaurants, located countrywide, and our welcoming and friendly
-                    service.
-                </p>
-                <hr>
+    <div id="myTabContent" class="tab-content">
+        <div class="tab-pane fade active in" id="home">
+            <div class="container">
+                <div class="col-sm-8 text-left">
+                    <h3><u>Tebogo's Coffee Shop</u></h3>
+                    <p>You can taste it in our seasonally inspired menus filled with innovative dishes, generous portions and bottomless drinks. You experience it through our easily accessible restaurants, located countrywide, and our welcoming and friendly
+                        service.
+                    </p>
+                    <hr>
 
-                <h2><b>Join our team.</b></h2>
-
-                <p>The form below contains two input elements; one of type text and one of type password:</p>
-
-                {{#if messages.error}}
-                    <div class="error">
-                        {{messages.error}}
-                        <br>
-                        <br>
-                    </div>
-
-                {{/if}}
-
-                {{#if messages.success}}
-                    <div class="success">
-                        {{messages.success}}
-                        <br>
-                        <br>
-                    </div>
-                {{/if}}
-
-                <form action="/" method="post">
-                    <div class="row">
-                        <div class="col-sm-4">
-
-                            <div class="form-group">
-                                <label for="name"><b>Name:</b></label>
-                                <input name='name' type="text" class="form-control" id="name" required>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-4">
-
-                            <div class="form-group">
-                                <label for="username"><b>Username:</b></label>
-                                <input name='username' type="text" class="form-control" id="username" required>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-4">
-
-                            <div class="form-group">
-                                <label for="password"><b>Password:</b></label>
-                                <input name='password' type="password" class="form-control" id="password" required>
-                            </div>
-                        </div>
-
-                    </div>
-                    <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
-
-                    <div class="clearfix">
-                        <button type="submit" class="signupbtn">Sign Up</button>
-                    </div>
-                </form>
-
-            </div>
-
-            <div class="col-sm-2 sidenav">
-                <div class="well">
-                    <p>ADS</p>
-                </div>
-                <div class="well">
-                    <p>ADS</p>
                 </div>
             </div>
         </div>
-    </div>
+
+        <div class="tab-pane fade" id="registration">
+            <div class="container">
+                <div class="col-sm-8 text-left">
+                    <h5><b>Join our team.</b></h5>
+
+                    <p>The form below contains two input elements; one of type text and one of type password:</p>
+
+                    {{#if messages.error}}
+                        <div class="text-warning">
+                            {{messages.error}}
+                            <br>
+                            <br>
+                        </div>
+
+                    {{/if}}
+
+                    {{#if messages.success}}
+                        <div class="success">
+                            {{messages.success}}
+                            <br>
+                            <br>
+                        </div>
+                    {{/if}}
+
+                    <form action="/" method="post">
+                        <div class="row">
+
+                            <div class="col-sm-4">
+
+                                <div class="form-group has-warning">
+                                    <label for="name"><b>Name:</b></label>
+                                    <input name='name' type="text" class="form-control" id="name" required>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-4">
+
+                                <div class="form-group has-warning">
+                                    <label for="username"><b>Username:</b></label>
+                                    <input name='username' type="text" class="form-control" id="username" required>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-4">
+
+                                <div class="form-group has-warning">
+                                    <label for="password"><b>Password:</b></label>
+                                    <input name='password' type="password" class="form-control" id="password" required>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="clearfix">
+                                    <button type="submit" class="btn btn-primary btn-xs">Sign Up</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
+                            </div>
+
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+            <div class="container">
+
+                <div class="col-sm-8 text-left">
+                    <p class="message">Already registered? <a href="/login"><span class="glyphicon glyphicon-log-in"></span> Sign In</a></p>
+                </div>
+            </div>
+        </div>
 
 </body>

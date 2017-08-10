@@ -37,13 +37,15 @@ module.exports = function(models) {
                                 return done(err);
                             }
 
-                            if (results) {
-                                req.flash('success', 'Registration complete!');
+                            if (!results) {
+                                req.flash('error', 'Registration failed!');
                                 res.render('home')
+                            } else {
+                                res.redirect('login');
+
                             }
                         });
                     });
-                    res.render('home');
                 };
             });
         }
@@ -52,39 +54,44 @@ module.exports = function(models) {
     const login = function(req, res, done) {
 
         var userData = {
-            username: req.body.username1,
-            password: req.body.password1
+            username: req.body.username,
+            password: req.body.password
         }
 
         if (userData.username !== undefined) {
-            var password = req.body.password1
+            var password = req.body.password
 
-            models.Username.findOne({
-                username: req.body.username1
-            }, function(err, user) {
+            if (userData.username == 'admin' && userData.password == '0000') {
+                res.redirect('days');
+            }
 
-                if (err) {
-                    return done(err)
-                }
+            else {
 
-                if (user) {
-                    console.log('user', user);
-                    if (password !== user.password) {
-                        req.flash('error', 'Wrong password or username!');
-                        console.log('user_id', user._id);
-                        res.render('login');
+                models.Username.findOne({
+                    username: req.body.username
+                }, function(err, user) {
+
+                    if (err) {
+                        return done(err)
                     }
 
-                    else if (password == user.password) {
-                        console.log('You are logged in as: ' + user.username);
-                        res.redirect('waiters/' + user.id)
+                    if (user) {
+
+                        if (password !== user.password) {
+                            req.flash('error', 'Wrong password or username!');
+                            console.log('user_id', user._id);
+                            res.render('login');
+                        } else if (password == user.password) {
+                            res.redirect('waiters/' + user.id)
+                        }
                     }
-                }
-                if (!user || user == null) {
-                    req.flash('error', 'No user found with this name!');
-                    res.render('login')
-                }
-            });
+
+                    if (!user || user == null) {
+                        req.flash('error', 'No user found with this name!');
+                        res.render('login')
+                    }
+                });
+            }
         }
 
         if (userData.username == undefined) {
@@ -101,23 +108,30 @@ module.exports = function(models) {
         }, function(err, user) {
 
             if (err) {
-                return done(err)
+                return done(err);
             }
 
-            if (!user || user == null) {
-                req.flash('error', 'No user found with this name!');
-                res.render('login')
+            var waiter_days = req.body
+
+            if (!waiter_days.days) {
+                req.flash('error', "Username should not be blank!");
+                res.render('waiters');
             }
 
-            if (user && user !== null) {
+            if (waiter_days.days) {
+                user.days = waiter_days.days;
 
-                var outputMessage = "Welcome " + user.name + ".";
+                user.save(function(err, result) {
+                    if (err) {
+                        return done(err)
+                    };
+                });
 
-                var data_3 = {
-                    outputMessage: outputMessage
-                }
-                res.render('waiters', data_3);
+                res.render('waiters');
+
             }
+
+
         });
     };
 

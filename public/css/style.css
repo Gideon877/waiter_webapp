@@ -1,11 +1,19 @@
-body {
-    /*background-color: skyblue;*/
-}
-
-.error {
-    color: red;
+.text-warning {
+    font-family: 'Crimson Text', serif;
 }
 
 .success {
     color: skyblue;
+    font-family: 'Playfair Display', serif;
 }
+
+.col-sm-8{
+    /*background-color: #a5f144;*/
+    font-family: 'PT Serif', serif;
+}
+
+/*Available fonts
+font-family: 'Playfair Display', serif;
+font-family: 'PT Serif', serif;
+font-family: 'Crimson Text', serif;
+font-family: 'Alegreya', serif;*/
