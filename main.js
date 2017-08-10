@@ -63,9 +63,7 @@ module.exports = function(models) {
 
             if (userData.username == 'admin' && userData.password == '0000') {
                 res.redirect('days');
-            }
-
-            else {
+            } else {
 
                 models.Username.findOne({
                     username: req.body.username
