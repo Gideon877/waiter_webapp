@@ -133,10 +133,120 @@ module.exports = function(models) {
         });
     };
 
+    const days = function(req, res, done) {
+
+        models.Username.find({}, function(err, result) {
+            if (err) {
+                return done(err);
+            }
+
+            var data = [{
+                    day: 'monday',
+                    names: [],
+                    status: ''
+                },
+                {
+                    day: 'tuesday',
+                    names: [],
+                    status: ''
+                },
+                {
+                    day: 'wednesday',
+                    names: [],
+                    status: ''
+                },
+                {
+                    day: 'thursday',
+                    names: [],
+                    status: ''
+                },
+                {
+                    day: 'friday',
+                    names: [],
+                    status: ''
+                },
+                {
+                    day: 'saturday',
+                    names: [],
+                    status: ''
+                },
+                {
+                    day: 'sunday',
+                    names: [],
+                    status: ''
+                },
+
+            ]
+
+            for (var i = 0; i < result.length; i++) {
+                var userDays = result[i].days;
+                var userName = result[i].name;
+
+                for (var a = 0; a < userDays.length; a++) {
+
+                    if (userDays[a] == 'monday') {
+                        var monday = data[0].names;
+                        monday.push(userName)
+                    }
+
+                    if (userDays[a] == 'tuesday') {
+                        var tuesday = data[1].names;
+                        tuesday.push(userName)
+                    }
+                    if (userDays[a] == 'wednesday') {
+                        var wednesday = data[2].names;
+                        wednesday.push(userName)
+                    }
+                    if (userDays[a] == 'thursday') {
+                        var thursday = data[3].names;
+                        thursday.push(userName)
+                    }
+                    if (userDays[a] == 'friday') {
+                        var friday = data[4].names;
+                        friday.push(userName)
+                    }
+                    if (userDays[a] == 'saturday') {
+                        var saturday = data[5].names;
+                        saturday.push(userName)
+                    }
+                    if (userDays[a] == 'sunday') {
+                        var sunday = data[6].names;
+                        sunday.push(userName)
+                    }
+                }
+            }
+
+            for (var v = 0; v < data.length; v++) {
+
+                var day1 = data[v].names;
+                var statuscolor = data[v].status
+
+                if (day1.length < 3) {
+                    statuscolor = 'pink';
+                }
+
+                if (day1.length == 3) {
+                    statuscolor = 'green';
+                }
+                if (day1.length > 3) {
+                    statuscolor = 'red';
+                }
+
+                data[v].status = statuscolor
+
+            }
+
+            var dataTest = data[0]
+            console.log(dataTest);
+
+            res.render('days', dataTest);
+        });
+    }
 
     return {
         login,
         waiters,
-        home
+        home,
+        days
     };
 };

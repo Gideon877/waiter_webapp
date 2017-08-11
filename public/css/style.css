@@ -11,9 +11,19 @@
     /*background-color: #a5f144;*/
     font-family: 'PT Serif', serif;
 }
-
+body{
+    font-family: 'Crimson Text', serif;
+}
 /*Available fonts
 font-family: 'Playfair Display', serif;
 font-family: 'PT Serif', serif;
 font-family: 'Crimson Text', serif;
 font-family: 'Alegreya', serif;*/
+
+.enough {
+    background-color: green;
+}
+
+.notEnough {
+    background-color: skyblue;
+}

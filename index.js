@@ -46,9 +46,7 @@ app.post('/waiters/:user_id', usernameRoutes.waiters);
 
 
 // admin page
-app.get('/days', function(req, res){
-    res.render('days')
-});
+app.get('/days', usernameRoutes.days);
 
 
 var port = app.get("port");
