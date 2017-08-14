@@ -23,15 +23,15 @@
   "engine": {
     "node": "v4.2.6"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Gideon877/WaiterApp.git"
-  },
-  "bugs": {
-    "url": "https://github.com/Gideon877/WaiterApp/issues"
-  },
-  "homepage": "https://github.com/Gideon877/WaiterApp#readme",
   "keywords": [
     "codeX"
-  ]
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gideon877/waiter_web.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Gideon877/waiter_web/issues"
+  },
+  "homepage": "https://github.com/Gideon877/waiter_web#readme"
 }
