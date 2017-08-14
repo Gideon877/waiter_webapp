@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="shortcut icon" href="/css/food.jpg">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
 </head>
 <body>
@@ -21,8 +22,26 @@
 
     <div class="container">
 
-
+    <h3>Welcome</h3>
   <h4>Please select days you can work on.</h4>
+
+
+  {{#if messages.error}}
+      <div class="text-warning">
+          {{messages.error}}
+          <br>
+          <br>
+      </div>
+
+  {{/if}}
+
+  {{#if messages.success}}
+      <div class="success">
+          {{messages.success}}
+          <br>
+          <br>
+      </div>
+  {{/if}}
   <!-- <p></p> -->
   <form action="" method="post">
       <div class="checkbox">

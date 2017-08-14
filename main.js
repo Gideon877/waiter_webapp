@@ -82,6 +82,8 @@ module.exports = function(models) {
                         } else if (password == user.password) {
                             res.redirect('waiters/' + user.id)
                         }
+
+
                     }
 
                     if (!user || user == null) {
@@ -109,10 +111,11 @@ module.exports = function(models) {
                 return done(err);
             }
 
+
             var waiter_days = req.body
 
             if (!waiter_days.days) {
-                req.flash('error', "Username should not be blank!");
+                req.flash('error', "Checkbox should not be blank!");
                 res.render('waiters');
             }
 
@@ -125,11 +128,9 @@ module.exports = function(models) {
                     };
                 });
 
+                req.flash('success', 'Shift days seleceted!')
                 res.render('waiters');
-
             }
-
-
         });
     };
 
@@ -141,6 +142,11 @@ module.exports = function(models) {
             }
 
             var data = [{
+                    day: 'Sunday',
+                    names: [],
+                    status: ''
+                },
+                {
                     day: 'Monday',
                     names: [],
                     status: ''
@@ -170,12 +176,6 @@ module.exports = function(models) {
                     names: [],
                     status: ''
                 },
-                {
-                    day: 'Sunday',
-                    names: [],
-                    status: ''
-                },
-
             ]
 
             for (var i = 0; i < result.length; i++) {
@@ -185,32 +185,32 @@ module.exports = function(models) {
                 for (var a = 0; a < userDays.length; a++) {
 
                     if (userDays[a] == 'monday') {
-                        var monday = data[0].names;
+                        var monday = data[1].names;
                         monday.push(userName)
                     }
 
                     if (userDays[a] == 'tuesday') {
-                        var tuesday = data[1].names;
+                        var tuesday = data[2].names;
                         tuesday.push(userName)
                     }
                     if (userDays[a] == 'wednesday') {
-                        var wednesday = data[2].names;
+                        var wednesday = data[3].names;
                         wednesday.push(userName)
                     }
                     if (userDays[a] == 'thursday') {
-                        var thursday = data[3].names;
+                        var thursday = data[4].names;
                         thursday.push(userName)
                     }
                     if (userDays[a] == 'friday') {
-                        var friday = data[4].names;
+                        var friday = data[5].names;
                         friday.push(userName)
                     }
                     if (userDays[a] == 'saturday') {
-                        var saturday = data[5].names;
+                        var saturday = data[6].names;
                         saturday.push(userName)
                     }
                     if (userDays[a] == 'sunday') {
-                        var sunday = data[6].names;
+                        var sunday = data[0].names;
                         sunday.push(userName)
                     }
                 }
@@ -236,7 +236,9 @@ module.exports = function(models) {
 
             }
 
-            res.render('days', {data});
+            res.render('days', {
+                data
+            });
         });
     }
 
