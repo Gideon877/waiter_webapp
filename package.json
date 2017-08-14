@@ -28,10 +28,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Gideon877/waiter_web.git"
+    "url": "git+https://github.com/Gideon877/waiter_webapp.git"
   },
   "bugs": {
-    "url": "https://github.com/Gideon877/waiter_web/issues"
+    "url": "https://github.com/Gideon877/waiter_webapp/issues"
   },
-  "homepage": "https://github.com/Gideon877/waiter_web#readme"
+  "homepage": "https://github.com/Gideon877/waiter_webapp#readme"
 }
