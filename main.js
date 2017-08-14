@@ -141,37 +141,37 @@ module.exports = function(models) {
             }
 
             var data = [{
-                    day: 'monday',
+                    day: 'Monday',
                     names: [],
                     status: ''
                 },
                 {
-                    day: 'tuesday',
+                    day: 'Tuesday',
                     names: [],
                     status: ''
                 },
                 {
-                    day: 'wednesday',
+                    day: 'Wednesday',
                     names: [],
                     status: ''
                 },
                 {
-                    day: 'thursday',
+                    day: 'Thursday',
                     names: [],
                     status: ''
                 },
                 {
-                    day: 'friday',
+                    day: 'Friday',
                     names: [],
                     status: ''
                 },
                 {
-                    day: 'saturday',
+                    day: 'Saturday',
                     names: [],
                     status: ''
                 },
                 {
-                    day: 'sunday',
+                    day: 'Sunday',
                     names: [],
                     status: ''
                 },
@@ -236,10 +236,30 @@ module.exports = function(models) {
 
             }
 
-            var dataTest = data[0]
-            console.log(dataTest);
+            res.render('days', {data});
+        });
+    }
 
-            res.render('days', dataTest);
+    const reset = function(req, res, done) {
+
+        models.Username.find({}, function(err, users) {
+            if (err) {
+                return done(err);
+            }
+
+            for (var i = 0; i < users.length; i++) {
+                var shift = users[i]
+                shift.days = [];
+                console.log('shift', shift);
+
+                shift.save(function(err, result) {
+                    if (err) {
+                        return done(err)
+                    };
+                });
+            }
+
+            res.redirect('days');
         });
     }
 
@@ -247,6 +267,7 @@ module.exports = function(models) {
         login,
         waiters,
         home,
-        days
+        days,
+        reset
     };
 };

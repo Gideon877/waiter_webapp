@@ -47,6 +47,7 @@ app.post('/waiters/:user_id', usernameRoutes.waiters);
 
 // admin page
 app.get('/days', usernameRoutes.days);
+app.get('/reset', usernameRoutes.reset);
 
 
 var port = app.get("port");

@@ -1,3 +1,9 @@
+/*Available fonts
+font-family: 'Playfair Display', serif;
+font-family: 'PT Serif', serif;
+font-family: 'Crimson Text', serif;
+font-family: 'Alegreya', serif;*/
+
 .text-warning {
     font-family: 'Crimson Text', serif;
 }
@@ -7,23 +13,27 @@
     font-family: 'Playfair Display', serif;
 }
 
-.col-sm-8{
-    /*background-color: #a5f144;*/
+.col-sm-8 {
     font-family: 'PT Serif', serif;
 }
 body{
     font-family: 'Crimson Text', serif;
 }
-/*Available fonts
-font-family: 'Playfair Display', serif;
-font-family: 'PT Serif', serif;
-font-family: 'Crimson Text', serif;
-font-family: 'Alegreya', serif;*/
 
-.enough {
-    background-color: green;
+.green {
+    background-color: #0e540e;
+    font-family: 'PT Serif', serif;
 }
 
-.notEnough {
-    background-color: skyblue;
+.pink {
+    background-color: #944312;
+    font-family: 'Crimson Text', serif;
+}
+
+.red {
+    background-color: #880e0e;
+}
+
+tr, th, table {
+    border: 1px solid black;
 }
