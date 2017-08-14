@@ -30,5 +30,8 @@
   "bugs": {
     "url": "https://github.com/Gideon877/WaiterApp/issues"
   },
-  "homepage": "https://github.com/Gideon877/WaiterApp#readme"
+  "homepage": "https://github.com/Gideon877/WaiterApp#readme",
+  "keywords": [
+    "codeX"
+  ]
 }
