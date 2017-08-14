@@ -1,7 +1,7 @@
 {
   "name": "waiter_webapp",
   "version": "1.0.0",
-  "description": "Restuarant webapp for both owner and workers",
+  "description": "Restuarant webapp for both owner and waiters",
   "main": "index.js",
   "scripts": {
     "test": "mongo"
