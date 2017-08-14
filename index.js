@@ -31,6 +31,7 @@ app.use(flash()); // set up http session
 app.get('/', usernameRoutes.home);
 app.post('/', usernameRoutes.home);
 
+//logout screen
 app.get('/logout', function(req, res){
     console.log('Session', req.session);
     res.redirect('/')
