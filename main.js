@@ -101,6 +101,7 @@ module.exports = function(models) {
     }
 
     const waiters = function(req, res, done) {
+
         var user_id = req.params.user_id;
 
         models.Username.findOne({
@@ -128,8 +129,15 @@ module.exports = function(models) {
                     };
                 });
 
+                var selecetedDays = user.days;
+
+                var data = {
+                    myDays: selecetedDays
+                }
+                console.log(data);
+
                 req.flash('success', 'Shift days seleceted!')
-                res.render('waiters');
+                res.render('waiters', data);
             }
         });
     };
@@ -235,6 +243,7 @@ module.exports = function(models) {
                 data[v].status = statuscolor
 
             }
+            console.log(data);
 
             res.render('days', {
                 data
