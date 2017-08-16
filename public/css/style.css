@@ -2,38 +2,17 @@
 font-family: 'Playfair Display', serif;
 font-family: 'PT Serif', serif;
 font-family: 'Crimson Text', serif;
+font-family: 'Cormorant Garamond', serif;
 font-family: 'Alegreya', serif;*/
 
-.text-warning {
-    font-family: 'Crimson Text', serif;
-}
 
-.success {
-    color: skyblue;
+body{
     font-family: 'Playfair Display', serif;
 }
 
-.col-sm-8 {
-    font-family: 'PT Serif', serif;
-}
-body{
-    font-family: 'Crimson Text', serif;
-}
-
-.green {
-    background-color: #0e540e;
-    font-family: 'PT Serif', serif;
-}
-
-.pink {
-    background-color: #944312;
-    font-family: 'Crimson Text', serif;
-}
-
-.red {
-    background-color: #880e0e;
-}
 
 tr, th, table {
-    border: 1px solid black;
+    /*border: 1px solid black;*/
+    /*font-family: 'Cormorant Garamond', serif;*/
+    color: white;
 }

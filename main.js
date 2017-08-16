@@ -103,6 +103,10 @@ module.exports = function(models) {
     const waiters = function(req, res, done) {
 
         var user_id = req.params.user_id;
+        req.session.name = user_id;
+        var session =
+        console.log(user_id);
+        console.log(req.session.name);
 
         models.Username.findOne({
             '_id': user_id
@@ -230,14 +234,14 @@ module.exports = function(models) {
                 var statuscolor = data[v].status
 
                 if (day1.length < 3) {
-                    statuscolor = 'pink';
+                    statuscolor = 'info';
                 }
 
                 if (day1.length == 3) {
-                    statuscolor = 'green';
+                    statuscolor = 'warning';
                 }
                 if (day1.length > 3) {
-                    statuscolor = 'red';
+                    statuscolor = 'danger';
                 }
 
                 data[v].status = statuscolor
