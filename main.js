@@ -77,7 +77,6 @@ module.exports = function(models) {
 
                         if (password !== user.password) {
                             req.flash('error', 'Wrong password or username!');
-                            console.log('user_id', user._id);
                             res.render('login');
                         } else if (password == user.password) {
                             res.redirect('waiters/' + user.id)
@@ -103,10 +102,6 @@ module.exports = function(models) {
     const waiters = function(req, res, done) {
 
         var user_id = req.params.user_id;
-        req.session.name = user_id;
-        var session =
-        console.log(user_id);
-        console.log(req.session.name);
 
         models.Username.findOne({
             '_id': user_id
@@ -120,7 +115,7 @@ module.exports = function(models) {
             var waiter_days = req.body
 
             if (!waiter_days.days) {
-                req.flash('error', "Checkbox should not be blank!");
+                req.flash('error', "");
                 res.render('waiters');
             }
 
@@ -133,18 +128,42 @@ module.exports = function(models) {
                     };
                 });
 
+                var msg = user.name + ', are you happy with your choice? If not,';
                 var selecetedDays = user.days;
 
                 var data = {
-                    myDays: selecetedDays
+                    myDays: selecetedDays,
+                    msg: msg
                 }
-                console.log(data);
 
-                req.flash('success', 'Shift days seleceted!')
                 res.render('waiters', data);
             }
         });
     };
+
+    const waitersHP = function(req, res, done) {
+        var user_id = req.params.user_id;
+
+        models.Username.findOne({
+            '_id': user_id
+        }, function(err, user) {
+
+            if (err) {
+                return done(err);
+            }
+
+            var msg = 'Hello, ' + user.name + '.';
+            var userDays = user.days;
+
+            var data_2 = {
+                msg: msg,
+                myDays: userDays
+            }
+
+            res.render('waiters', data_2)
+
+        });
+    }
 
     const days = function(req, res, done) {
 
@@ -247,7 +266,6 @@ module.exports = function(models) {
                 data[v].status = statuscolor
 
             }
-            console.log(data);
 
             res.render('days', {
                 data
@@ -283,6 +301,7 @@ module.exports = function(models) {
         waiters,
         home,
         days,
-        reset
+        reset,
+        waitersHP
     };
 };

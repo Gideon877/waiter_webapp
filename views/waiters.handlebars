@@ -24,29 +24,29 @@
 
     <div class="container">
 
-        <h3>Welcome</h3>
 
         <div class="row">
             <div class="col-md-4">
-        <h4>Please select days you can work on.</h4>
+                <h4>{{msg}}</h4>
+                <h5>Please select days you can work on.</h5>
 
 
-        {{#if messages.error}}
-            <div class="text-warning">
-                {{messages.error}}
-                <br>
-                <br>
-            </div>
+                {{#if messages.error}}
+                    <div class="text-warning">
+                        {{messages.error}}
+                        <br>
+                        <br>
+                    </div>
 
-        {{/if}}
+                {{/if}}
 
-        {{#if messages.success}}
-            <div class="success">
-                {{messages.success}}
-                <br>
-                <br>
-            </div>
-        {{/if}}
+                {{#if messages.success}}
+                    <div class="success">
+                        {{messages.success}}
+                        <br>
+                        <br>
+                    </div>
+                {{/if}}
                 <form action="" method="post">
                     <div class="checkbox">
                         <label><input type="checkbox" name="days" value="sunday">Sunday</label>
@@ -75,7 +75,7 @@
             </div>
 
             <div class="col-md-8">
-                <h4><u>Selected days.</u></h4>
+                <h4><u>Shift days selected.</u></h4>
                 <div class="table-responsive">
                     <table class="table table-striped table-hover ">
                         <tr>

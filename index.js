@@ -42,7 +42,7 @@ app.get('/login', usernameRoutes.login);
 app.post('/login', usernameRoutes.login);
 
 // waiter page
-app.get('/waiters/:user_id', usernameRoutes.waiters);
+app.get('/waiters/:user_id', usernameRoutes.waitersHP);
 app.post('/waiters/:user_id', usernameRoutes.waiters);
 
 
