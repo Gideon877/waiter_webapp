@@ -129,6 +129,7 @@ $ git push heroku master
        http://arcane-lowlands-8408.herokuapp.com deployed to Heroku
 
 ```
+[launch](http://waiter-8.herokuapp.com/)
 
 To open the app in your browser, type ```$ heroku open``` .
 
