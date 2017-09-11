@@ -59,38 +59,30 @@ module.exports = function(models) {
         }
 
         if (userData.username !== undefined) {
-            var password = req.body.password
-
-            if (userData.username == 'admin' && userData.password == '0000') {
-                res.redirect('days');
-            } else {
 
                 models.Username.findOne({
-                    username: req.body.username
+                    username: req.body.username,
+                    password: req.body.password
                 }, function(err, user) {
 
                     if (err) {
                         return done(err)
                     }
 
-                    if (user) {
+                    if (user.username == 'admin') {
+                        res.redirect('days');
+                    }
 
-                        if (password !== user.password) {
-                            req.flash('error', 'Wrong password or username!');
-                            res.render('login');
-                        } else if (password == user.password) {
-                            res.redirect('waiters/' + user.id)
-                        }
-
-
+                    if (user.username !== 'admin') {
+                        res.redirect('waiters/' + user.id)
                     }
 
                     if (!user || user == null) {
-                        req.flash('error', 'No user found with this name!');
+                        req.flash('error', 'Wrong password or username!!');
                         res.render('login')
                     }
                 });
-            }
+
         }
 
         if (userData.username == undefined) {
@@ -113,6 +105,7 @@ module.exports = function(models) {
 
 
             var waiter_days = req.body
+            console.log(waiter_days);
 
             if (!waiter_days.days) {
                 req.flash('error', "");
@@ -130,11 +123,16 @@ module.exports = function(models) {
 
                 var msg = user.name + ', are you happy with your choice? If not,';
                 var selecetedDays = user.days;
+                var dayObj = {}
+                user.days.forEach(function(day) {
+                    dayObj[day] = true
+                })
 
                 var data = {
-                    myDays: selecetedDays,
-                    msg: msg
+                    msg: msg,
+                    myDays: dayObj,
                 }
+
 
                 res.render('waiters', data);
             }
@@ -153,11 +151,14 @@ module.exports = function(models) {
             }
 
             var msg = 'Hello, ' + user.name + '.';
-            var userDays = user.days;
+            var dayObj = {}
+            user.days.forEach(function(day) {
+                dayObj[day] = true
+            })
 
             var data_2 = {
                 msg: msg,
-                myDays: userDays
+                myDays: dayObj,
             }
 
             res.render('waiters', data_2)
@@ -253,14 +254,14 @@ module.exports = function(models) {
                 var statuscolor = data[v].status
 
                 if (day1.length < 3) {
-                    statuscolor = 'info';
+                    statuscolor = 'default';
                 }
 
                 if (day1.length == 3) {
-                    statuscolor = 'warning';
+                    statuscolor = 'enough';
                 }
                 if (day1.length > 3) {
-                    statuscolor = 'danger';
+                    statuscolor = 'primary';
                 }
 
                 data[v].status = statuscolor

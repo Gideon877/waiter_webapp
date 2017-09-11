@@ -16,3 +16,15 @@ tr, th, table {
     /*font-family: 'Cormorant Garamond', serif;*/
     color: white;
 }
+
+.default {
+    background-color: #474949;
+}
+
+.enough {
+    background-color: green;
+}
+
+.primary {
+        background-color: #d9230f;
+}

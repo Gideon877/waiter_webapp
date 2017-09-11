@@ -49,32 +49,32 @@
                 {{/if}}
                 <form action="" method="post">
                     <div class="checkbox">
-                        <label><input type="checkbox" name="days" value="sunday">Sunday</label>
+                        <label><input type="checkbox" name="days" value="sunday" {{#if myDays.sunday}}checked{{/if}}>Sunday</label>
                     </div>
                     <div class="checkbox">
-                        <label><input type="checkbox" name="days" value="monday">Monday</label>
+                        <label><input type="checkbox" name="days" value="monday" {{#if myDays.monday}}checked{{/if}}>Monday</label>
                     </div>
                     <div class="checkbox">
-                        <label><input type="checkbox" name="days" value="tuesday">Tuesday</label>
+                        <label><input type="checkbox" name="days" value="tuesday" {{#if myDays.tuesday}}checked{{/if}}>Tuesday</label>
                     </div>
 
                     <div class="checkbox">
-                        <label><input type="checkbox" name="days" value="wednesday">Wednesday</label>
+                        <label><input type="checkbox" name="days" value="wednesday" {{#if myDays.wednesday}}checked{{/if}}>Wednesday</label>
                     </div>
                     <div class="checkbox">
-                        <label><input type="checkbox" name="days" value="thursday">Thursday</label>
+                        <label><input type="checkbox" name="days" value="thursday" {{#if myDays.thursday}}checked{{/if}}>Thursday</label>
                     </div>
                     <div class="checkbox">
-                        <label><input type="checkbox" name="days" value="friday">Friday</label>
+                        <label><input type="checkbox" name="days" value="friday" {{#if myDays.friday}}checked{{/if}}>Friday</label>
                     </div>
                     <div class="checkbox">
-                        <label><input type="checkbox" name="days" value="saturday">Saturday</label>
+                        <label><input type="checkbox" name="days" value="saturday" {{#if myDays.saturday}}checked{{/if}}>Saturday</label>
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
             </div>
 
-            <div class="col-md-8">
+            <!-- <div class="col-md-8">
                 <h4><u>Shift days selected.</u></h4>
                 <div class="table-responsive">
                     <table class="table table-striped table-hover ">
@@ -85,7 +85,7 @@
                         </tr>
                     </table>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </body>
