@@ -45,6 +45,10 @@
                         <th class="field-label col-xs-1 {{status}}"><h4 style="color:white;">{{day}}</h4><br>
                             {{#each names}}
                                 <h5 style="font-family:times;color:white">{{this}}</h5>
+                                {{else}}
+                                    <div>
+                                        <h5 style="color: aquamarine;">Sorry, day not selected yet. </h5>
+                                    </div>
                             {{/each}}
                         </th>
                     {{/each}}

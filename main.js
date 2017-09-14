@@ -52,7 +52,6 @@ module.exports = function(models) {
     };
 
     const login = function(req, res, done) {
-
         var userData = {
             username: req.body.username,
             password: req.body.password
@@ -156,9 +155,108 @@ module.exports = function(models) {
                 dayObj[day] = true
             })
 
+            //------------------------------------------------------
+
+            models.Username.find({}, function(err, result) {
+                if (err) {
+                    return done(err);
+                }
+
+                var data = [{
+                        day: 'Sunday',
+                        names: [],
+                        status: ''
+                    },
+                    {
+                        day: 'Monday',
+                        names: [],
+                        status: ''
+                    },
+                    {
+                        day: 'Tuesday',
+                        names: [],
+                        status: ''
+                    },
+                    {
+                        day: 'Wednesday',
+                        names: [],
+                        status: ''
+                    },
+                    {
+                        day: 'Thursday',
+                        names: [],
+                        status: ''
+                    },
+                    {
+                        day: 'Friday',
+                        names: [],
+                        status: ''
+                    },
+                    {
+                        day: 'Saturday',
+                        names: [],
+                        status: ''
+                    },
+                ]
+
+                for (var i = 0; i < result.length; i++) {
+                    var userDays = result[i].days;
+                    var userName = result[i].name;
+
+                    for (var a = 0; a < userDays.length; a++) {
+
+                        if (userDays[a] == 'monday') {
+                            var monday = data[1].names;
+                            monday.push(userName)
+                        }
+
+                        if (userDays[a] == 'tuesday') {
+                            var tuesday = data[2].names;
+                            tuesday.push(userName)
+                        }
+                        if (userDays[a] == 'wednesday') {
+                            var wednesday = data[3].names;
+                            wednesday.push(userName)
+                        }
+                        if (userDays[a] == 'thursday') {
+                            var thursday = data[4].names;
+                            thursday.push(userName)
+                        }
+                        if (userDays[a] == 'friday') {
+                            var friday = data[5].names;
+                            friday.push(userName)
+                        }
+                        if (userDays[a] == 'saturday') {
+                            var saturday = data[6].names;
+                            saturday.push(userName)
+                        }
+                        if (userDays[a] == 'sunday') {
+                            var sunday = data[0].names;
+                            sunday.push(userName)
+                        }
+                    }
+                }
+
+                for (var v = 0; v < data.length; v++) {
+
+                    var day1 = data[v].names;
+                    var statuscolor = data[v].status
+
+                    if (day1.length > 3) {
+                        statuscolor = 'checked';
+                    }
+
+                    data[v].status = statuscolor
+
+                }
+                console.log(data);
+                // res.render('waiters', data);
+            })
+//----------------------------------------------
             var data_2 = {
                 msg: msg,
                 myDays: dayObj,
+                // status:
             }
 
             res.render('waiters', data_2)

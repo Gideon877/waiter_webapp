@@ -28,7 +28,10 @@ app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 * 30}, resave:
 app.use(flash()); // set up http session
 
 // registration page
-app.get('/', usernameRoutes.home);
+app.get('/', function(req, res) {
+    console.log('Lol');
+    res.render('home');
+});
 app.post('/', usernameRoutes.home);
 
 //logout screen
@@ -38,7 +41,9 @@ app.get('/logout', function(req, res){
 });
 
 // login page
-app.get('/login', usernameRoutes.login);
+app.get('/login', function(req, res) {
+    res.render('login');
+});
 app.post('/login', usernameRoutes.login);
 
 // waiter page
