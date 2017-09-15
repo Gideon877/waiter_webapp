@@ -59,15 +59,17 @@ module.exports = function(models) {
 
         if (userData.username !== undefined) {
 
-                models.Username.findOne({
-                    username: req.body.username,
-                    password: req.body.password
-                }, function(err, user) {
+            models.Username.findOne({
+                username: req.body.username,
+                password: req.body.password
+            }, function(err, user) {
 
-                    if (err) {
-                        return done(err)
-                    }
-
+                if (err) {
+                    return done(err)
+                }
+                console.log(user);
+                // console.log(user.username, ':', user.password);
+                if (user) {
                     if (user.username == 'admin') {
                         res.redirect('days');
                     }
@@ -75,12 +77,13 @@ module.exports = function(models) {
                     if (user.username !== 'admin') {
                         res.redirect('waiters/' + user.id)
                     }
+                }
 
-                    if (!user || user == null) {
-                        req.flash('error', 'Wrong password or username!!');
-                        res.render('login')
-                    }
-                });
+                if (!user || user == null) {
+                    req.flash('error', 'Wrong password or username!!');
+                    res.render('login')
+                }
+            });
 
         }
 
@@ -242,24 +245,28 @@ module.exports = function(models) {
                     var day1 = data[v].names;
                     var statuscolor = data[v].status
 
-                    if (day1.length > 3) {
-                        statuscolor = 'checked';
+                    if (day1.length >= 3) {
+                        statuscolor = 'disabled';
                     }
 
                     data[v].status = statuscolor
 
                 }
-                console.log(data);
-                // res.render('waiters', data);
-            })
-//----------------------------------------------
-            var data_2 = {
-                msg: msg,
-                myDays: dayObj,
-                // status:
-            }
 
-            res.render('waiters', data_2)
+                var data_2 = {
+                    msg: msg,
+                    myDays: dayObj,
+                    sun: data[0].status,
+                    mon: data[1].status,
+                    tue: data[2].status,
+                    wed: data[3].status,
+                    thur: data[4].status,
+                    fri: data[5].status,
+                    sat: data[6].status
+                }
+
+                res.render('waiters', data_2)
+            })
 
         });
     }
