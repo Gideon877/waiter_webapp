@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
 module.exports = function(mongoUrl){
     mongoose.Promise = global.Promise;
     mongoose.connect(mongoUrl);
