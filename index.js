@@ -6,12 +6,10 @@ const flash = require('express-flash');
 const session = require('express-session');
 
 
-const UsernameRoutes = require('./app');
-const Route = require('./main');
-const Models = require('./models');
+const Route = require('./javascript/app');
+const Models = require('./models/models');
 const models = Models(process.env.MONGO_DB_URL || 'mongodb://localhost/waiters');
-const usernameRoutes = UsernameRoutes(models);
-const route = Route('./models');
+const route = Route(models);
 const app = express();
 
 app.set("port", (process.env.PORT || 4444))
@@ -45,7 +43,7 @@ app.use(flash()); // set up http session
 app.get('/', function(req, res) {
     res.render('home');
 });
-app.post('/', usernameRoutes.home);
+app.post('/', route.home);
 
 //logout screen
 app.get('/logout', function(req, res) {
@@ -54,11 +52,11 @@ app.get('/logout', function(req, res) {
 });
 
 // login page
-app.get('/login', usernameRoutes.sign_in);
-app.post('/login', usernameRoutes.login);
+app.get('/login', route.sign_in);
+app.post('/login', route.login);
 
 // waiter page
-app.get('/waiters/:user_id', usernameRoutes.dashboard);
+app.get('/waiters/:user_id', route.dashboard);
 app.post('/waiters/:user_id', route.waiters);
 
 
