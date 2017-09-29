@@ -17,14 +17,14 @@ tr, th, table {
     color: white;
 }
 
-.default {
-    background-color: #474949;
+.info {
+    background-color: #b58900;
 }
 
-.enough {
-    background-color: green;
+.success {
+    background-color: #2aa198;
 }
 
 .primary {
-        background-color: #d9230f;
+        background-color: #b58900;
 }

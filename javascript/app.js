@@ -1,4 +1,4 @@
-'use strict'
+"use strict"
 module.exports = function(models) {
 
     const home = function(req, res, done) {
@@ -8,18 +8,18 @@ module.exports = function(models) {
 
         if (!usernameData || !usernameData.username) {
             req.flash('error', 'Registration box should not be blank!');
-            res.render('home')
+            res.render('home');
         } else {
 
             models.Username.findOne({
                 username: req.body.username
             }, function(err, user) {
                 if (err) {
-                    return done(err)
+                    return done(err);
                 }
                 if (user) {
                     req.flash('error', 'Username already taken!');
-                    res.render('home')
+                    res.render('home');
                 } else {
                     models.Username.create({
                         name: req.body.name,
@@ -31,7 +31,7 @@ module.exports = function(models) {
                         }
                         if (!result) {
                             req.flash('error', 'Registration failed!');
-                            res.render('home')
+                            res.render('home');
                         } else {
                             res.redirect('login');
 
@@ -54,22 +54,21 @@ module.exports = function(models) {
             }, function(err, user) {
 
                 if (err) {
-                    return done(err)
+                    return done(err);
                 }
 
                 if (!user || user == null) {
                     req.flash('error', 'Wrong password or username!!');
-                    res.render('login')
+                    res.render('login');
                 }
                 if (user) {
-
                     req.session.user = user;
                     if (user.username == 'admin') {
                         res.redirect('days');
                     }
 
                     if (user.username !== 'admin') {
-                        res.redirect('waiters/' + user.id)
+                        res.redirect('waiters/' + user.id);
                     }
                 }
             });
@@ -79,7 +78,7 @@ module.exports = function(models) {
             req.flash('error', "Username should not be blank!");
             res.render('login');
         }
-    }
+    };
 
     const sign_in = function(req, res, done) {
         if (req.session && req.session.user) { // Check if session exists
@@ -95,13 +94,13 @@ module.exports = function(models) {
                     // expose the user to the template
                     req.session.user = user;
                     res.locals.user = user;
-                    // redirect the waiter page
+                    // redirect the admin page
                     if (user.username == 'admin') {
                         res.redirect('days');
                     }
-
+                    // redirect the waiter page
                     if (user.username !== 'admin') {
-                        res.redirect('waiters/' + user.id)
+                        res.redirect('waiters/' + user.id);
                     }
                 }
             });
@@ -117,20 +116,18 @@ module.exports = function(models) {
             models.Username.findOne({
                 '_id': user_id
             }, function(err, user) {
-                console.log('USER', user);
                 if (!user) {
                     // if the user isn't found in the DB, reset the session info and
                     // redirect the user to the login page
                     req.session = null;
                     res.redirect('/login');
                 }
-
                 if (user) {
                     var msg = 'Welcome, ' + user.name + '.';
-                    var dayObj = {}
+                    var dayObj = {};
                     user.days.forEach(function(day) {
-                        dayObj[day] = true
-                    })
+                        dayObj[day] = true;
+                    });
                     models.Username.find({}, function(err, result) {
                         if (err) {
                             return done(err);
@@ -171,7 +168,7 @@ module.exports = function(models) {
                                 names: [],
                                 status: ''
                             },
-                        ]
+                        ];
 
                         result.forEach(function(user) {
                             var userDays = user.days;
@@ -180,46 +177,46 @@ module.exports = function(models) {
                             userDays.forEach(function(element) {
                                 if (element == 'monday') {
                                     var monday = data[1].names;
-                                    monday.push(userName)
+                                    monday.push(userName);
                                 }
 
                                 if (element == 'tuesday') {
                                     var tuesday = data[2].names;
-                                    tuesday.push(userName)
+                                    tuesday.push(userName);
                                 }
                                 if (element == 'wednesday') {
                                     var wednesday = data[3].names;
-                                    wednesday.push(userName)
+                                    wednesday.push(userName);
                                 }
                                 if (element == 'thursday') {
                                     var thursday = data[4].names;
-                                    thursday.push(userName)
+                                    thursday.push(userName);
                                 }
                                 if (element == 'friday') {
                                     var friday = data[5].names;
-                                    friday.push(userName)
+                                    friday.push(userName);
                                 }
                                 if (element == 'saturday') {
                                     var saturday = data[6].names;
-                                    saturday.push(userName)
+                                    saturday.push(userName);
                                 }
                                 if (element == 'sunday') {
                                     var sunday = data[0].names;
-                                    sunday.push(userName)
+                                    sunday.push(userName);
                                 }
-                            })
-                        })
+                            });
+                        });
 
                         for (var v = 0; v < data.length; v++) {
 
                             var day1 = data[v].names;
-                            var statuscolor = data[v].status
+                            var statuscolor = data[v].status;
 
                             if (day1.length >= 3) {
                                 statuscolor = 'disabled';
                             }
 
-                            data[v].status = statuscolor
+                            data[v].status = statuscolor;
 
                         }
 
@@ -233,18 +230,18 @@ module.exports = function(models) {
                             thur: data[4].status,
                             fri: data[5].status,
                             sat: data[6].status
-                        }
+                        };
 
-                        res.render('waiters', data_2)
-                    })
+                        res.render('waiters', data_2);
+                    });
 
                 }
-            })
+            });
 
         } else {
             res.redirect('/login');
         }
-    }
+    };
 
     const reset = function(req, res, done) {
         models.Username.find({}, function(err, users) {
@@ -254,16 +251,11 @@ module.exports = function(models) {
 
             for (var i = 0; i < users.length; i++) {
                 users[i].days = [];
-                users[i].save(function(err, result) {
-                    if (err) {
-                        return done(err)
-                    };
-                });
+                users[i].save();
             }
-
             res.redirect('days');
         });
-    }
+    };
 
     const waiters = function(req, res, done) {
 
@@ -277,7 +269,7 @@ module.exports = function(models) {
                 return done(err);
             }
 
-            var waiter_days = req.body
+            var waiter_days = req.body;
 
             if (!waiter_days.days) {
                 req.flash('error', "");
@@ -289,16 +281,16 @@ module.exports = function(models) {
 
                 user.save(function(err, result) {
                     if (err) {
-                        return done(err)
-                    };
+                        return done(err);
+                    }
                 });
 
-                var msg = user.name + ', are you happy with your choice? If not,';
+                var msg = 'Hey ' + user.name + ', are you happy with the days you selected? Otherwise,';
                 var selecetedDays = user.days;
-                var dayObj = {}
+                var dayObj = {};
                 user.days.forEach(function(day) {
-                    dayObj[day] = true
-                })
+                    dayObj[day] = true;
+                });
 
                 models.Username.find({}, function(err, result) {
                     if (err) {
@@ -340,7 +332,7 @@ module.exports = function(models) {
                             names: [],
                             status: ''
                         },
-                    ]
+                    ];
 
                     result.forEach(function(user) {
                         var userDays = user.days;
@@ -349,46 +341,46 @@ module.exports = function(models) {
                         userDays.forEach(function(element) {
                             if (element == 'monday') {
                                 var monday = data[1].names;
-                                monday.push(userName)
+                                monday.push(userName);
                             }
 
                             if (element == 'tuesday') {
                                 var tuesday = data[2].names;
-                                tuesday.push(userName)
+                                tuesday.push(userName);
                             }
                             if (element == 'wednesday') {
                                 var wednesday = data[3].names;
-                                wednesday.push(userName)
+                                wednesday.push(userName);
                             }
                             if (element == 'thursday') {
                                 var thursday = data[4].names;
-                                thursday.push(userName)
+                                thursday.push(userName);
                             }
                             if (element == 'friday') {
                                 var friday = data[5].names;
-                                friday.push(userName)
+                                friday.push(userName);
                             }
                             if (element == 'saturday') {
                                 var saturday = data[6].names;
-                                saturday.push(userName)
+                                saturday.push(userName);
                             }
                             if (element == 'sunday') {
                                 var sunday = data[0].names;
-                                sunday.push(userName)
+                                sunday.push(userName);
                             }
-                        })
-                    })
+                        });
+                    });
 
                     for (var v = 0; v < data.length; v++) {
 
                         var day1 = data[v].names;
-                        var statuscolor = data[v].status
+                        var statuscolor = data[v].status;
 
                         if (day1.length >= 3) {
                             statuscolor = 'disabled';
                         }
 
-                        data[v].status = statuscolor
+                        data[v].status = statuscolor;
 
                     }
 
@@ -402,126 +394,145 @@ module.exports = function(models) {
                         thur: data[4].status,
                         fri: data[5].status,
                         sat: data[6].status
-                    }
+                    };
 
-                    res.render('waiters', data_2)
-                })
+                    res.render('waiters', data_2);
+                });
             }
         });
     };
 
     const days = function(req, res, done) {
-
+        //Check if the user is still logged in
         if (req.session && req.session.user) {
-            models.Username.find({}, function(err, result) {
-                if (err) {
-                    return done(err);
+            // Check if the user is an admin
+            if (req.session.user.username == 'admin') {
+                models.Username.find({}, function(err, result) {
+                    if (err) {
+                        return done(err);
+                    }
+
+                    var data = [{
+                        day: 'Sunday',
+                        names: [],
+                        status: '',
+                        statusBar: 0
+                    },
+                    {
+                        day: 'Monday',
+                        names: [],
+                        status: '',
+                        statusBar: 0
+                    },
+                    {
+                        day: 'Tuesday',
+                        names: [],
+                        status: '',
+                        statusBar: 0
+                    },
+                    {
+                        day: 'Wednesday',
+                        names: [],
+                        status: '',
+                        statusBar: 0
+                    },
+                    {
+                        day: 'Thursday',
+                        names: [],
+                        status: '',
+                        statusBar: 0
+                    },
+                    {
+                        day: 'Friday',
+                        names: [],
+                        status: '',
+                        statusBar: 0
+                    },
+                    {
+                        day: 'Saturday',
+                        names: [],
+                        status: '',
+                        statusBar: 0
+                    },
+                ];
+
+                result.forEach(function(user) {
+                    var userDays = user.days;
+                    var userName = user.name;
+
+                    userDays.forEach(function(element) {
+                        if (element == 'monday') {
+                            var monday = data[1].names;
+                            monday.push(userName);
+                        }
+
+                        if (element == 'tuesday') {
+                            var tuesday = data[2].names;
+                            tuesday.push(userName);
+                        }
+                        if (element == 'wednesday') {
+                            var wednesday = data[3].names;
+                            wednesday.push(userName);
+                        }
+                        if (element == 'thursday') {
+                            var thursday = data[4].names;
+                            thursday.push(userName);
+                        }
+                        if (element == 'friday') {
+                            var friday = data[5].names;
+                            friday.push(userName);
+                        }
+                        if (element == 'saturday') {
+                            var saturday = data[6].names;
+                            saturday.push(userName);
+                        }
+                        if (element == 'sunday') {
+                            var sunday = data[0].names;
+                            sunday.push(userName);
+                        }
+                    });
+                });
+
+                for (var v = 0; v < data.length; v++) {
+
+                    var day1 = data[v].names;
+                    var statuscolor = data[v].status;
+                    var bar = data[v].statusBar;
+
+                    if (day1.length < 3) {
+                        statuscolor = 'primary';
+                        bar = (day1.length /3 * 100);
+
+                    }
+
+                    if (day1.length == 3) {
+                        statuscolor = 'info';
+                        bar = (day1.length /3 * 100);
+                    }
+                    if (day1.length > 3) {
+                        statuscolor = 'success';
+                        bar = 100;
+                    }
+
+                    data[v].status = statuscolor;
+                    data[v].statusBar = bar;
+
                 }
 
-                var data = [{
-                    day: 'Sunday',
-                    names: [],
-                    status: ''
-                },
-                {
-                    day: 'Monday',
-                    names: [],
-                    status: ''
-                },
-                {
-                    day: 'Tuesday',
-                    names: [],
-                    status: ''
-                },
-                {
-                    day: 'Wednesday',
-                    names: [],
-                    status: ''
-                },
-                {
-                    day: 'Thursday',
-                    names: [],
-                    status: ''
-                },
-                {
-                    day: 'Friday',
-                    names: [],
-                    status: ''
-                },
-                {
-                    day: 'Saturday',
-                    names: [],
-                    status: ''
-                },
-            ]
-
-            result.forEach(function(user) {
-                var userDays = user.days;
-                var userName = user.name;
-
-                userDays.forEach(function(element) {
-                    if (element == 'monday') {
-                        var monday = data[1].names;
-                        monday.push(userName)
-                    }
-
-                    if (element == 'tuesday') {
-                        var tuesday = data[2].names;
-                        tuesday.push(userName)
-                    }
-                    if (element == 'wednesday') {
-                        var wednesday = data[3].names;
-                        wednesday.push(userName)
-                    }
-                    if (element == 'thursday') {
-                        var thursday = data[4].names;
-                        thursday.push(userName)
-                    }
-                    if (element == 'friday') {
-                        var friday = data[5].names;
-                        friday.push(userName)
-                    }
-                    if (element == 'saturday') {
-                        var saturday = data[6].names;
-                        saturday.push(userName)
-                    }
-                    if (element == 'sunday') {
-                        var sunday = data[0].names;
-                        sunday.push(userName)
-                    }
-                })
-            })
-
-            for (var v = 0; v < data.length; v++) {
-
-                var day1 = data[v].names;
-                var statuscolor = data[v].status
-
-                if (day1.length < 3) {
-                    statuscolor = 'default';
-                }
-
-                if (day1.length == 3) {
-                    statuscolor = 'enough';
-                }
-                if (day1.length > 3) {
-                    statuscolor = 'primary';
-                }
-
-                data[v].status = statuscolor
-
-            }
-
-
-            res.render('days', {
-                data
+                console.log(data);
+                res.render('days', {
+                    data
+                });
             });
-        })
-
-        } else {
+            }
+            if (req.session.user.username !== 'admin') {
+                res.redirect('waiters/' + req.session.user.id);
+            }
+        }
+        else {
             res.redirect('/login');
         }
-    }
+    };
 
 
     return {
