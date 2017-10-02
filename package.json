@@ -9,7 +9,6 @@
   "author": "Thabang Gideon Magaola",
   "license": "ISC",
   "dependencies": {
-    "body": "^5.1.0",
     "body-parser": "^1.18.2",
     "express": "^4.15.5",
     "express-flash": "0.0.2",

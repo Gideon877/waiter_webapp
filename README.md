@@ -2,6 +2,15 @@
 
 This is a web application for my sister's coffee shop in town, she need it to help her schedule weekly waiter shifts.
 
+### Task done
+
+- [x] create a server for the app
+- [x] create a model (mongodb schema)
+- [x] create routes file and views folder
+- [x] create a public folder (css files)
+- [x] create a github repository and deploy
+- [x] deploy at heroku
+
 ## Waiters can:
 
 - register
@@ -66,7 +75,7 @@ How to [Install MongoDB](https://www.digitalocean.com/community/tutorials/how-to
   }
 ```
 
-To install all dependencies required for the app to run, on the terminal navigate to the project root, and type `npm install` .
+To install all dependencies required for the app to run, on the terminal navigate to the waiter_webapp folder, and type `npm install` .
 
 #### Mocha Setup
 
@@ -80,7 +89,9 @@ $ sudo npm install -g mocha
 
 ## Running the tests
 
-Run `$ mocha` from app directory terminal window in the project directory and this will be your results;
+if you are using windows OS, first you need to get the mongodb server running.
+
+In the CLI navigate to the waiter_webapp and run/type `$ mocha` and this will be your results;
 
 ```bash
 modules should be able to
@@ -92,72 +103,9 @@ modules should be able to
   4 passing (175ms)
 ```
 
-### What does these tests?
-
-1) create a new object (name, username and password) and store it in MongoDB.
-
-```javascript
-it('store User details to MongoDB', function(done) {
-    models.Username.create({
-        name: 'Vusi Baloyi',
-        username: 'TaVusi',
-        password: *******
-    }, function(err, result) {
-        if (err) {
-            return done(err)
-        }
-
-        assert.equal("TaVusi", result.username)
-        done(err);
-    });
-});
-```
-
-2) Create unique user.
-
-```javascript
-if (!theUsername) {
-    models.Username.create({
-        name: 'King Gideon',
-        username: 'King',
-        password: ****
-    }, function(err, result) {
-        if (err) {
-            return done(err);
-        }
-
-        assert.equal('King', result.username);
-        done();
-    });
-}
-```
-
-3) Clear waiter's weekly selected shift days.
-
-```javascript
-models.Username.find({}, function (err, user) {
-    if (err) {
-        return done(err)
-    }
-
-    for (var i = 0; i < user.length; i++) {
-        user[i].days = [];
-        user[i].save(function(err, result) {
-            if (err) {
-                return done(err);
-            };
-        });
-
-        assert.equal(0, user[i].days.length);
-    }
-
-    done();
-})
-```
-
 ## Running the app locally
 
-- In the command line, navigate to the project working folder.Once you are in the appropriate folder input this command
+- In the command line, navigate to the waiter_webapp directory.Once you are in the appropriate folder input this command
 
         $ nodemon or
         $ node index.js
@@ -168,7 +116,7 @@ models.Username.find({}, function (err, user) {
 
 ## Deployment
 
-The app is deployed at Heroku and gitHub. Use mLab to deploy your application.
+The app is deployed at Heroku and gitHub. The app also use mLab database.
 
 ### Prerequisites
 
@@ -182,6 +130,14 @@ The best practices in this article assume that you have:
 Then start your app locally using `heroku local` command which is installed as a part of the Heroku CLI.
 
 `$ heroku local web` Your app should now be running on <http://localhost:5000/>.
+
+The shoes api App is deployed on [Heroku](https://waiter-8.herokuapp.com)
+
+###### To open the app locally;
+  - first you need to navigate to your waiter_webapp directory on the terminal.
+  - run the server using `$ heroku open` command.
+  - navigate to your web browser and type <http://localhost:5000/> on the url input.
+
 
 #### Deploying App on Heroku
 
