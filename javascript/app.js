@@ -136,37 +136,44 @@ module.exports = function(models) {
                         var data = [{
                                 day: 'Sunday',
                                 names: [],
-                                status: ''
+                                status: '',
+                                statusBar: 0
                             },
                             {
                                 day: 'Monday',
                                 names: [],
-                                status: ''
+                                status: '',
+                                statusBar: 0
                             },
                             {
                                 day: 'Tuesday',
                                 names: [],
-                                status: ''
+                                status: '',
+                                statusBar: 0
                             },
                             {
                                 day: 'Wednesday',
                                 names: [],
-                                status: ''
+                                status: '',
+                                statusBar: 0
                             },
                             {
                                 day: 'Thursday',
                                 names: [],
-                                status: ''
+                                status: '',
+                                statusBar: 0
                             },
                             {
                                 day: 'Friday',
                                 names: [],
-                                status: ''
+                                status: '',
+                                statusBar: 0
                             },
                             {
                                 day: 'Saturday',
                                 names: [],
-                                status: ''
+                                status: '',
+                                statusBar: 0
                             },
                         ];
 
@@ -211,14 +218,25 @@ module.exports = function(models) {
 
                             var day1 = data[v].names;
                             var statuscolor = data[v].status;
+                            var bar = data[v].statusBar;
 
                             if (day1.length >= 3) {
                                 statuscolor = 'disabled';
+                                bar = 100;
+                            }
+                            if (day1.length == 3) {
+                                bar = (day1.length /3 * 100);
+                            }
+                            if (day1.length < 3) {
+                                bar = (day1.length /3 * 100);
                             }
 
                             data[v].status = statuscolor;
+                            data[v].statusBar = bar;
 
                         }
+
+                        console.log(data);
 
                         var data_2 = {
                             msg: msg,
@@ -229,7 +247,21 @@ module.exports = function(models) {
                             wed: data[3].status,
                             thur: data[4].status,
                             fri: data[5].status,
-                            sat: data[6].status
+                            sat: data[6].status,
+                            sunBar: data[0].statusBar,
+                            monBar: data[1].statusBar,
+                            tueBar: data[2].statusBar,
+                            wedBar: data[3].statusBar,
+                            thurBar: data[4].statusBar,
+                            friBar: data[5].statusBar,
+                            satBar: data[6].statusBar,
+                            sunAvil: data[0].names.length,
+                            monAvil: data[1].names.length,
+                            tueAvil: data[2].names.length,
+                            wedAvil: data[3].names.length,
+                            thurAvil: data[4].names.length,
+                            friAvil: data[5].names.length,
+                            satAvil: data[6].names.length,
                         };
 
                         res.render('waiters', data_2);
@@ -375,12 +407,21 @@ module.exports = function(models) {
 
                         var day1 = data[v].names;
                         var statuscolor = data[v].status;
+                        var bar = data[v].statusBar;
 
                         if (day1.length >= 3) {
                             statuscolor = 'disabled';
+                            bar = 100;
+                        }
+                        if (day1.length == 3) {
+                            bar = (day1.length /3 * 100);
+                        }
+                        if (day1.length < 3) {
+                            bar = (day1.length /3 * 100);
                         }
 
                         data[v].status = statuscolor;
+                        data[v].statusBar = bar;
 
                     }
 
@@ -393,8 +434,23 @@ module.exports = function(models) {
                         wed: data[3].status,
                         thur: data[4].status,
                         fri: data[5].status,
-                        sat: data[6].status
+                        sat: data[6].status,
+                        sunBar: data[0].statusBar,
+                        monBar: data[1].statusBar,
+                        tueBar: data[2].statusBar,
+                        wedBar: data[3].statusBar,
+                        thurBar: data[4].statusBar,
+                        friBar: data[5].statusBar,
+                        satBar: data[6].statusBar,
+                        sunAvil: data[0].names.length,
+                        monAvil: data[1].names.length,
+                        tueAvil: data[2].names.length,
+                        wedAvil: data[3].names.length,
+                        thurAvil: data[4].names.length,
+                        friAvil: data[5].names.length,
+                        satAvil: data[6].names.length,
                     };
+
 
                     res.render('waiters', data_2);
                 });
@@ -533,7 +589,6 @@ module.exports = function(models) {
             res.redirect('/login');
         }
     };
-
 
     return {
         home,
