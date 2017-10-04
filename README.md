@@ -2,6 +2,12 @@
 
 This is a web application for my sister's coffee shop in town, she need it to help her schedule weekly waiter shifts.
 
+### Admin Page
+![ADMIN](https://raw.githubusercontent.com/Gideon877/waiter_webapp/master/public/images/Screenshot%20from%202017-10-04%2007-34-17.png)
+
+### Waiter Page
+![Waiter](https://raw.githubusercontent.com/Gideon877/waiter_webapp/master/public/images/Screenshot%20from%202017-10-04%2007-35-37.png)
+
 ### Task done
 
 - [x] create a server for the app
