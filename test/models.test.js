@@ -1,5 +1,5 @@
 const assert = require('assert');
-const Models = require('../models');
+const Models = require('../models/models');
 
 describe('modules should be able to', function() {
 
