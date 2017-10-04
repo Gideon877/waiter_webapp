@@ -119,7 +119,23 @@ modules should be able to
 - The following message should be displayed Server started at http://:::4444
 
 - Then open a new tab on your browser and type this http://localhost:4444/ and the app will open.
+- Once the url load you will a registration input form.
 
+   ##### Waiter
+   
+        * create a unique username and a password
+        * login using your credintials 
+        * Once you login, you can select the days you would like to work on. If the day if fully booked the checkbox will be disabled
+        * After selecting days you can logout using the logout button.
+        
+  ##### Admin
+  
+        * create a login credintials using 'admin' as a username and your prefered password.
+        * login using your credintials and you will be redireted to the admin page.
+        * Once you login, you can see which days are booked, and which days need more waiters.
+        * If Its a new week, you can use the 'Delete' button to delete all selected days
+        
+        
 ## Deployment
 
 The app is deployed at Heroku and gitHub. The app also use mLab database.
