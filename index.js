@@ -5,7 +5,6 @@ const bodyParser = require('body-parser');
 const flash = require('express-flash');
 const session = require('express-session');
 
-
 const Route = require('./javascript/app');
 const Models = require('./models/models');
 const models = Models(process.env.MONGO_DB_URL || 'mongodb://localhost/waiters');
@@ -48,7 +47,7 @@ app.post('/', route.home);
 //logout screen
 app.get('/logout', function(req, res) {
     req.session.destroy();
-    res.redirect('/')
+    res.redirect('/login');
 });
 
 // login page
@@ -59,11 +58,9 @@ app.post('/login', route.login);
 app.get('/waiters/:user_id', route.dashboard);
 app.post('/waiters/:user_id', route.waiters);
 
-
 // admin page
 app.get('/days', route.days);
 app.get('/reset', route.reset);
-
 
 var port = app.get("port");
 

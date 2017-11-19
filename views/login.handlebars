@@ -1,78 +1,56 @@
-<head>
-    <title>Waiter App</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link rel="shortcut icon" href="/images/login.jpg">
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+<title>Login</title>
+<link rel="stylesheet" href="/css/login.css">
+<link href='http://fonts.googleapis.com/css?family=Raleway:500' rel='stylesheet' type='text/css'>
 </head>
 
 <body>
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <div class="navbar-header">
-
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="/">Home</a></li>
-                    <li class="active"><a href="https://twitter.com/Gideon877">Contact</a></li>
-                </ul>
-            </div>
+    <div class="middlePage">
+        <div class="page-header">
+            <h1 class="logo">Teboho's Kitchen <small>Welcome to our restuarant.</small></h1>
         </div>
-    </nav>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-8 text-left">
-                <h5><b>Enter login creditials</b></h5>
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">Please Sign In</h3>
+            </div>
+            <div class="panel-body">
 
-                <p>The form below contains two input elements; one of type text and one of type password:</p>
+                <div class="row">
 
-                {{#if messages.error}}
-                    <div class="error" style="color:red">
-                        {{messages.error}}
-                        <br>
-                        <br>
+                    <div class="col-md-5">
+                        <!-- <a href="#"><img src="http://techulus.com/buttons/fb.png" /></a><br/>
+                        <a href="#"><img src="http://techulus.com/buttons/tw.png" /></a><br/>
+                        <a href="#"><img src="http://techulus.com/buttons/gplus.png" /></a> -->
+                        {{#if messages.error}}
+                            <div class="error" style="color:red">
+                                {{messages.error}}
+                                <br>
+                                <br>
+                            </div>
+
+                        {{/if}}
                     </div>
 
-                {{/if}}
+                    <div class="col-md-7" style="border-left:1px solid #ccc;height:160px">
+                        <form class="form-horizontal" action="" method="post" id="signin" class="navbar-form" role="form">
+                            <fieldset>
+                                <input type="text" class="form-control" id="username" name="username" value="" placeholder="Enter Username" required>
+                                <div class="spacing"><input type="checkbox" name="checkboxes" id="checkboxes-0" value="1"><small> Remember me</small></div>
+                                <input id="password" type="password" class="form-control" name="password" value="" placeholder="Enter Password" required>
+                                <div class="spacing"><small>New member?</small> <a href="/"><small>Sign Up</small></a><br/></div>
+                                <button id="singlebutton" name="singlebutton" class="btn btn-info btn-sm pull-right">Sign In</button>
 
-                {{#if messages.success}}
-                    <div class="success">
-                        {{messages.success}}
-                        <br>
-                        <br>
+
+                            </fieldset>
+                        </form>
                     </div>
-                {{/if}}
+
+                </div>
+
             </div>
         </div>
+
+        <p><a href="https://github.com/Gideon877/waiter_webapp" target="_blank">View</a> · Source Code</p>
+
     </div>
-
-    <form action="" method="post" id="signin" class="navbar-form" role="form">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-3">
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input type="text" class="form-control" id="username" name="username" value="" placeholder="Username" required>
-                    </div>
-                </div>
-            </div>
-            <br>
-            <div class="row">
-                <div class="col-sm-3">
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                        <input id="password" type="password" class="form-control" name="password" value="" placeholder="Password" required>
-                    </div>
-
-                </div>
-            </div>
-            <br>
-
-            <button type="submit" class="btn btn-primary">Login</button>
-            <a href="/" class="btn btn-danger">Cancel</a>
-        </div>
-    </form>
 </body>

@@ -47,6 +47,7 @@ module.exports = function(models) {
             username: req.body.username,
             password: req.body.password
         }
+        console.log('userData', userData);
         if (userData.username !== undefined) {
             models.Username.findOne({
                 username: req.body.username,
