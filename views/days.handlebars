@@ -1,20 +1,15 @@
 <title>Admin Dashboard</title>
 <style>
     /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
-
     .row.content {
         height: 550px
     }
-
     /* Set gray background color and 100% height */
-
     .sidenav {
         background-color: #18505f;
         height: 100%;
     }
-
     /* On small screens, set height to 'auto' for the grid */
-
     @media screen and (max-width: 767px) {
         .row.content {
             height: auto;
@@ -28,11 +23,6 @@
     <nav class="navbar navbar-inverse visible-xs">
         <div class="container-fluid">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
                 <a class="navbar-brand" href="#">Admin</a>
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
@@ -59,21 +49,18 @@
 
             <div class="col-sm-9">
                 <div class="well">
-                    <!-- <h4>Dashboard</h4> -->
                     <h4>Waiter Schedule</h4>
                 </div>
 
-
-
                 <div class="table-responsive">
-                    <table class="table table-striped table-hover table-bordered">
+                    <table class="ui striped table">
                         <tr>
                             {{#each data}}
                                 <th class="field-label col-xs-1 {{status}}">
                                     <h4 style="color:white;">{{day}}</h4>
                                     <br>
                                     {{#each names}}
-                                        <h5 style="font-family:times;color:white">{{this}}</h5>
+                                        <p style="font-family:times;color:white">{{this}}</p>
                                         {{else}}
                                             <div>
                                                 <h5 style="color: aquamarine;">No waiter available for the shift.</h5>
@@ -84,7 +71,7 @@
                         </tr>
                     </table>
                 </div>
-
+                <br> <br>
                 {{#each data}}
                     <div class="progress progress-striped active">
                         <div class="progress-bar progress-bar-{{status}}" style="width: {{statusBar}}%">{{day}}</div>
@@ -94,5 +81,3 @@
             </div>
         </div>
     </div>
-
-</body>

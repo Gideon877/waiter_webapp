@@ -1,0 +1,121 @@
+
+    <title>Home | Teboho's Kitchen</title>
+    <link rel="shortcut icon" href="/images/home.jpg">
+</head>
+
+<body>
+
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#home" data-toggle="tab" aria-expanded="true">Home</a></li>
+        <li class=""><a href="#registration" data-toggle="tab" aria-expanded="false">About</a></li>
+        <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+    </ul>
+
+    <div id="myTabContent" class="tab-content">
+        <div class="tab-pane fade active in" id="home">
+            <div class="container">
+                <div class="col-sm-8 text-left">
+                    <h5><b>Join our team.</b></h5>
+
+                    <p>The form below contains two input elements; one of type text and one of type password:</p>
+
+                    {{#if messages.error}}
+                        <div class="text-warning">
+                            {{messages.error}}
+                            <br>
+                            <br>
+                        </div>
+
+                    {{/if}}
+
+                    {{#if messages.success}}
+                        <div class="success">
+                            {{messages.success}}
+                            <br>
+                            <br>
+                        </div>
+                    {{/if}}
+
+                    <form action="/" method="post">
+                        <div class="row">
+
+                            <div class="col-sm-4">
+
+                                <div class="form-group has-warning">
+                                    <label for="name"><b>Name:</b></label>
+                                    <input name='name' type="text" class="form-control" id="name" required>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-4">
+
+                                <div class="form-group has-warning">
+                                    <label for="username"><b>Username:</b></label>
+                                    <input name='username' type="text" class="form-control" id="username" required>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-4">
+
+                                <div class="form-group has-warning">
+                                    <label for="password"><b>Password:</b></label>
+                                    <input name='password' type="password" class="form-control" id="password" required>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="clearfix">
+                                    <button type="submit" class="btn btn-primary btn-xs">Sign Up</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
+                            </div>
+
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="registration">
+            <div class="container">
+                <div class="col-sm-8 text-left">
+                    <h3><u>Tebogo's Coffee Shop</u></h3>
+                    <p>This is a web application for my sister's coffee shop in town, she need it to help her schedule weekly waiter shifts.</p>
+                    <h5><u>Waiters can</u>:</h5>
+                    <ul>
+                        <li>register</li>
+                        <li>login</li>
+                        <li>select days they can work</li>
+                        <li>update the days they can work on</li>
+                    </ul>
+
+                    <h5><u>My sister want to</u>:</h5>
+                    <ul>
+                        <li>see how many waiters are available to work</li>
+                        <li>reset the data to use the system for a new week</li>
+                        <li>She need <em>3 waiters for each day</em>. Days for which there are enough waiters should be marked as <em>green</em>, days for which more waiters are needed still and days that are over subscribed should be highlighted accordingly.</li>
+
+                    </ul>
+
+                    <hr>
+
+                </div>
+            </div>
+
+            <div class="container">
+
+                <div class="col-sm-8 text-left">
+                    <p class="message">Already registered? <a href="/login"><span class="glyphicon glyphicon-log-in"></span> Sign In</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
