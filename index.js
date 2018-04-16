@@ -5,13 +5,22 @@ const bodyParser = require('body-parser');
 const flash = require('express-flash');
 const session = require('express-session');
 
-const Route = require('./javascript/app');
+const Register = require('./route/register');
+const Login = require('./route/signin');
+const Admin = require('./route/admin');
+const Waiter = require('./route/waiter');
+
+
 const Models = require('./models/models');
 const models = Models(process.env.MONGO_DB_URL || 'mongodb://localhost/waiters');
-const route = Route(models);
 const app = express();
 
-app.set("port", (process.env.PORT || 4444))
+const register = Register(models);
+const login = Login(models);
+const waiter = Waiter(models);
+const admin = Admin(models);
+
+app.set("port", (process.env.PORT || 3002))
 
 app.engine('handlebars', exphbs({
     defaultLayout: 'main'
@@ -27,7 +36,6 @@ app.use(bodyParser.urlencoded({
 
 // parse application/json
 app.use(bodyParser.json())
-// app.use(session({cookieName: 'session', secret: 'random_string_goes_here', duration: 30 * 60 * 1000, activeDuration: 5 * 60 * 1000,}));
 app.use(session({
     secret: 'keyboard cat',
     cookie: {
@@ -42,7 +50,7 @@ app.use(flash()); // set up http session
 app.get('/', function(req, res) {
     res.render('home');
 });
-app.post('/', route.home);
+app.post('/', register.home);
 
 //logout screen
 app.get('/logout', function(req, res) {
@@ -51,16 +59,16 @@ app.get('/logout', function(req, res) {
 });
 
 // login page
-app.get('/login', route.sign_in);
-app.post('/login', route.login);
+app.get('/login', login.sign_in);
+app.post('/login', login.login);
 
 // waiter page
-app.get('/waiters/:user_id', route.dashboard);
-app.post('/waiters/:user_id', route.waiters);
+app.get('/waiters/:userId', waiter.dashboard);
+app.post('/waiters/:userId', waiter.waiters);
 
 // admin page
-app.get('/days', route.days);
-app.get('/reset', route.reset);
+app.get('/days', admin.days);
+app.get('/reset', admin.reset);
 
 var port = app.get("port");
 

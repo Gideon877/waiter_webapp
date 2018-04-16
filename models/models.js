@@ -7,7 +7,8 @@ module.exports = function(mongoUrl){
         name: String,
         username: { type: String, required: true, unique: true },
         password: { type: String, required: true, bcrypt: true },
-        days: Array
+        days: Array,
+        timestamp: String
     });
 
     return {
