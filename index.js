@@ -5,10 +5,20 @@ const bodyParser = require('body-parser');
 const flash = require('express-flash');
 const session = require('express-session');
 
-const Route = require('./javascript/app');
-const Models = require('./models/models');
+const Register = require('./src/handler/registration');
+const Login = require('./src/handler/login');
+
+// const Route = require('./src/handler/app');
+const Screens = require('./src/handler/screens');
+
+const Models = require('./src/schema/models');
 const models = Models(process.env.MONGO_DB_URL || 'mongodb://localhost/waiters');
-const route = Route(models);
+
+const login = Login(models);
+const register = Register(models);
+
+// const route = Route(models);
+const screen = Screens(models);
 const app = express();
 
 app.set("port", (process.env.PORT || 4444))
@@ -38,29 +48,42 @@ app.use(session({
 }));
 app.use(flash()); // set up http session
 
-// registration page
-app.get('/', function(req, res) {
-    res.render('home');
-});
-app.post('/', route.home);
 
-//logout screen
-app.get('/logout', function(req, res) {
-    req.session.destroy();
-    res.redirect('/login');
+app.get('/register', (req, res, done) => {
+    (req.session && req.session.user) ? res.redirect('/register') : res.render('register');
 });
+
+app.post('/register', register.validate);
+
+
+
+// // home page
+// app.get('/', function(req, res) {
+//     console.log('asdfghjknbvcxzdfghj');
+    
+//     res.render('days');
+// });
+// app.post('/', screen.getAdminScreen);
+
+// //logout screen
+// app.get('/logout', function(req, res) {
+//     req.session.destroy();
+//     res.redirect('/login');
+// });
 
 // login page
-app.get('/login', route.sign_in);
-app.post('/login', route.login);
+app.get('/login',(req, res, done) => {
+    (req.session && req.session.user) ? res.redirect('/') : res.render('login');
+});
+app.post('/login', login.userLogin);
 
-// waiter page
-app.get('/waiters/:user_id', route.dashboard);
-app.post('/waiters/:user_id', route.waiters);
+// // waiter page
+// app.get('/waiters/:user_id', route.dashboard);
+// app.post('/waiters/:user_id', route.waiters);
 
-// admin page
-app.get('/days', route.days);
-app.get('/reset', route.reset);
+// // admin page
+// app.get('/days', route.days);
+// app.get('/reset', route.reset);
 
 var port = app.get("port");
 

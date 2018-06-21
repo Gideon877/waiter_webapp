@@ -6,11 +6,11 @@ describe('modules should be able to', function() {
     var models = Models('mongodb://localhost/waiters-tests');
 
     beforeEach(function(done) {
-        models.Username.remove({}, function(err) {
+        models.Waiter.remove({}, function(err) {
             if (err) {
                 done(err)
             }
-            models.Username.create({
+            models.Waiter.create({
                 username: 'gideon877',
                 password: 1234,
                 days: ['Tuesday', 'Wednesday', 'Friday']
@@ -21,7 +21,7 @@ describe('modules should be able to', function() {
     });
 
     it('store User details to MongoDB', function(done) {
-        models.Username.create({
+        models.Waiter.create({
             name: 'Vusi Baloyi',
             username: 'Ta-Vusi',
             password: 8888
@@ -37,7 +37,7 @@ describe('modules should be able to', function() {
 
     it('register/create a new unique "User" with password & username', function(done) {
 
-        models.Username.findOne({
+        models.Waiter.findOne({
             username: 'King',
             password: 5555
         }, function(err, theUsername) {
@@ -51,7 +51,7 @@ describe('modules should be able to', function() {
             assert.ok(theUsername === null);
 
             if (!theUsername) {
-                models.Username.create({
+                models.Waiter.create({
                     name: 'King Gideon',
                     username: 'King',
                     password: 9001
@@ -60,7 +60,7 @@ describe('modules should be able to', function() {
                         return done(err);
                     }
                     // check if the user was created
-                    models.Username.find({
+                    models.Waiter.find({
                         username: 'King',
                         password: 9001
                     }, function (err, result) {
@@ -79,7 +79,7 @@ describe('modules should be able to', function() {
     });
 
     it('clear weekly schedule', function(done) {
-        models.Username.find({}, function (err, user) {
+        models.Waiter.find({}, function (err, user) {
             if (err) {
                 return done(err)
             }
@@ -101,7 +101,7 @@ describe('modules should be able to', function() {
 
     it('rejects duplicate', function(done) {
 
-        models.Username.findOne({
+        models.Waiter.findOne({
             username: 'gideon877',
             password: 1234
         }, function(err, theUsername) {

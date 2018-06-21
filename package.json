@@ -9,17 +9,18 @@
   "author": "Thabang Gideon Magaola",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^2.0.1",
     "body-parser": "^1.18.2",
-    "express": "^4.15.5",
+    "express": "^4.16.3",
     "express-flash": "0.0.2",
     "express-handlebars": "^3.0.0",
     "express-session": "^1.15.6",
-    "mongoose": "^4.11.13",
-    "nodemon": "^1.12.1",
-    "semantic-ui": "^2.2.13"
+    "flash": "^1.1.0",
+    "moment": "^2.22.2",
+    "mongoose": "^5.1.6"
   },
   "devDependencies": {
-    "nodemon": "^1.11.0"
+    "nodemon": "^1.17.5"
   },
   "engine": {
     "node": "v4.2.6"
