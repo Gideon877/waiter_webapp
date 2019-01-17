@@ -10,16 +10,51 @@ module.exports = (models) => {
 
 
     const signIn = (req, res) => {
-        const { username, password, firstName, lastName } = req.body;
+        const { username, password } = req.body;
 
         try {
             const checkUser = await Shared.checkUserLoginData(username, password);
             return (checkUser ? Login(username) : Retry(username));
             
+            async function Login(username) {
+                let user = await Shared.getUserByUsername(username);
+                req.session.user = user;
+                (user.type == UserTypes.Admin) ? res.redirect('/days') : res.redirect(`/waiters/${user._id}`);
+            };
+        
+            async function Retry(username) {
+                req.flash('error', `${username} doesn't exist or you have entered incorrect password!`);
+                res.render('signIn');
+            };
+
         } catch (error) {
-            res.render('signUp');
+            return Retry(username);
+        };
+    };
+
+
+    const signUp = (req, res) => {
+        try {
+            let user = await Shared.signUpCheck();
+            return (user ? Login() : Retry());
+
+            async function Login(username) {
+                let user = await Shared.getUserByUsername(username);
+                req.session.user = user;
+                (user.type == UserTypes.Admin) ? res.redirect('/days') : res.redirect(`/waiters/${user._id}`);
+            };
+        
+            async function Retry(username) {
+                req.flash('error', `${username} doesn't exist or you have entered incorrect password!`);
+                res.render('signUp');
+            };
+
+
+        } catch (error) {
+            return Retry(username);
         }
-    };
+
+    }
 
 
 
@@ -28,17 +63,6 @@ module.exports = (models) => {
 
 
 
-
-    const Login = async (username) => {
-        let user = await Shared.getUserByUsername(username);
-        req.session.user = user;
-        (user.type == UserTypes.Admin) ? res.redirect('/days') : res.redirect(`/waiters/${user._id}`);
-    };
-
-    const Retry = async (username) => {
-        req.flash('error', `${username} doesn't exist or you have entered incorrect password!`);
-        res.render('login');
-    };
 
     return {
         // signUp,

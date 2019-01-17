@@ -1,7 +1,7 @@
 'use strict'
 const _ = require('lodash');
 const bcrypt = require('bcrypt');
-const { BCryptRounds } = require('./constant');
+const { BCryptRounds, UserTypes } = require('./constant');
 
 
 module.exports = (models) => {
@@ -39,7 +39,7 @@ module.exports = (models) => {
         });
     };
 
-	/************************************************************************* */
+	/*********************************** User ************************************** */
 
     /**
      * @param  { string } username
@@ -68,7 +68,7 @@ module.exports = (models) => {
 	
 	
 
-	/************************************************************************* */
+	/********************************* days **************************************** */
 
 	const createDays = (params) => {
 		return Days.create(params);
@@ -118,6 +118,30 @@ module.exports = (models) => {
 		return false;
 	}
 	
+	const signUpCheck = async (params) => {
+		const { password, username } = params;
+		const userExist = await checkUser(username);
+		const hashedPassword =  await hashPassword(password);
+
+		if (!userExist) {
+			let user = {
+				username,
+				password: hashedPassword,
+				firstName: _.capitalize(params.firstName),
+				lastName: _.capitalize(params.lastName),
+				timestamp: {
+					created: moment.utc() || new Date(),
+					lastUpdated: moment.utc() || new Date()
+				},
+				type: UserTypes.Waiter
+			};
+
+			let newUser = await createUser(user);
+			return newUser;
+			
+		}
+		return false;
+	}
 
 
 
@@ -125,7 +149,8 @@ module.exports = (models) => {
        getUserByUsername,
        decryptPassword,
 	   hashPassword,
-	   checkUserLoginData
+	   checkUserLoginData,
+	   signUpCheck
     //    createUser,
     //    createDays,
     //    findDays,
