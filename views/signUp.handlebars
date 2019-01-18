@@ -1,0 +1,52 @@
+<title>Login</title>
+ </head>
+ <style>
+    #input { 
+        text-transform: capitalize;
+    }
+    ::-webkit-input-placeholder { /* WebKit browsers */
+        text-transform: none;
+    }
+ </style>
+ <body>
+    <br><br><br>
+     <div class="ui container">
+         <div class="ui piled segment">
+            {{#if messages.error}}
+                <div class="ui negative message">
+                    <i class="close icon"></i>
+                    <div class="header">
+                        Your user registration was unsuccessful.
+                    </div>
+                    <p>{{messages.error}}</p>
+                </div>
+            {{/if}}
+            <form action="" method="POST">
+                <div class="ui equal width form">
+                <div class="fields">
+                    <div class="field">
+                        <label>First name</label>
+                        <input id="input" type="text" placeholder="First Name" name="firstName" value="Thabang" required>
+                    </div>
+                    <div class="field">
+                        <label>Last name</label>
+                        <input id="input" type="text" placeholder="Last Name" name="lastName" value="Gideon" required>
+                    </div>
+                </div>
+                <div class="fields">
+                    <div class="field">
+                        <label>Username</label>
+                        <input type="text" placeholder="Username" name="username" value="gideon877" required>
+                    </div>
+                    <div class="field">
+                        <label>Password</label>
+                        <input placeholder="Password" type="password" name="password" value="1" required>
+                    </div>
+                </div>
+                <button class="ui primary button">Sign Up</button>
+                <button class="ui button"><a href="/">Discard</a></button>
+            </div>
+            </form>
+        </div>
+     </div>
+    <script src="/scripts/index.js" charset="utf-8"></script>

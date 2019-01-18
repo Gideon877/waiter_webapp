@@ -1,0 +1,95 @@
+<title>Login</title>
+<style>
+    a {
+        color: white
+    }
+</style>
+</head>
+    <body>
+        <br><br><br>
+        <div class="ui container">
+            <div class="ui piled segment">
+                <br><br><br>
+                {{#if messages.error}}
+                <div class="ui negative message">
+                    <i class="close icon"></i>
+                    <div class="header">
+                        Your user login was unsuccessful.
+                    </div>
+                    <p>{{messages.error}}</p>
+                </div>
+                {{/if}}
+                <div class="ui placeholder segment">
+                    <div class="ui two column very relaxed stackable grid">
+                        <div class="column">
+                            <form action="" method="POST">
+                                <div class="ui form">
+                                    {{#if messages.error}}
+                                        <div class="field error">
+                                            <label>Username</label>
+                                            <div class="ui left icon input">
+                                                <input type="username"
+                                                    class="form-control"
+                                                    id="username"
+                                                     style="color: #9d3c64"
+                                                    name="username" value=""
+                                                    placeholder="Username" required>
+                                                <i class="user icon"></i>
+                                            </div>
+                                        </div>
+                                        <div class="field error">
+                                            <label>Password</label>
+                                            <div class="ui left icon input">
+                                                <input type="password"
+                                                    class="form-control" id="pwd"
+                                                    name="password" value=""
+                                                    style="color: #9d3c64"
+                                                    placeholder="Enter password"
+                                                    required>
+                                                <i class="lock icon"></i>
+                                            </div>
+                                        </div>
+                                        {{else}} 
+                                            <div class="field">
+                                                <label>Username</label>
+                                                <div class="ui left icon input">
+                                                    <input type="username"
+                                                        class="form-control"
+                                                        id="username"
+                                                        name="username" value="gideon877"
+                                                        placeholder="Username" required>
+                                                    <i class="user icon"></i>
+                                                </div>
+                                            </div>
+                                            <div class="field">
+                                                <label>Password</label>
+                                                <div class="ui left icon input">
+                                                    <input type="password"
+                                                        class="form-control" id="pwd"
+                                                        name="password" value="1"
+                                                        placeholder="Enter password"
+                                                        required>
+                                                    <i class="lock icon"></i>
+                                                </div>
+                                            </div>
+                                    {{/if}}
+                                    <button class="ui blue submit button"
+                                        type="submit"><i class="sign-in alternate icon"></i>Login</button>
+                                </div></form>
+                        </div>
+                        <div class="middle aligned column">
+                            <div class="ui blue big button">
+                                <i class="user plus icon"></i>
+                                <a href="/signUp">Sign Up</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui vertical divider">
+                        Or
+                    </div>
+                </div>
+                <br><br><br>
+            </div>
+        </div>
+    <script src="/scripts/index.js" charset="utf-8"></script>    
+</body>

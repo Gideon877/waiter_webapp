@@ -6,7 +6,7 @@ const flash = require('express-flash');
 const session = require('express-session');
 
 const Handler = require('./src/handler');
-const Screen = require('./src/screen');
+const Screen = require('./src/screens');
 const Models = require('./src/schema/model');
 const models = Models(process.env.MONGO_DB_URL || 'mongodb://localhost/waiters');
 const handler = Handler(models);
@@ -50,17 +50,17 @@ app.post('/signUp', handler.signUp);
 //logout screen
 app.get('/logout', function(req, res) {
     req.session.destroy();
-    res.redirect('/login');
+    res.redirect('/');
 });
 
 
 // waiter page
-app.get('/waiters/:id', handler.dashboard);
-app.post('/waiters/:id', handler.addDays);
+app.get('/waiters/:id', screen.waiter);
+app.post('/waiters/:id', screen.waiter);
 
 // admin page
-app.get('/days', handler.getWaitersDays);
-app.get('/reset', handler.resetWeeklyShift);
+// app.get('/days', handler.getWaitersDays);
+// app.get('/reset', handler.resetWeeklyShift);
 
 var port = app.get("port");
 

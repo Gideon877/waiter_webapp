@@ -9,7 +9,7 @@ module.exports = (models) => {
     const Shared = SHARED(models);
 
 
-    const signIn = (req, res) => {
+    const signIn = async (req, res) => {
         const { username, password } = req.body;
 
         try {
@@ -33,9 +33,11 @@ module.exports = (models) => {
     };
 
 
-    const signUp = (req, res) => {
+    const signUp = async (req, res) => {
+        const { username } = req.body;
         try {
-            let user = await Shared.signUpCheck();
+            let user = await Shared.signUpCheck(req.body);
+            console.log('User:', user);
             return (user ? Login() : Retry());
 
             async function Login(username) {
@@ -51,7 +53,8 @@ module.exports = (models) => {
 
 
         } catch (error) {
-            return Retry(username);
+            console.log('-----error----', error)
+            Retry(username);
         }
 
     }
@@ -65,8 +68,8 @@ module.exports = (models) => {
 
 
     return {
-        // signUp,
-        // signIn,
+        signUp,
+        signIn,
         // addDays,
         // dashBoard,
         // getWaitersDays,

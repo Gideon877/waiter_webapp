@@ -1,6 +1,7 @@
 'use strict'
 const _ = require('lodash');
 const bcrypt = require('bcrypt');
+const moment = require('moment');
 const { BCryptRounds, UserTypes } = require('./constant');
 
 
@@ -11,7 +12,7 @@ module.exports = (models) => {
     /**
      * @param  { string } password
      */
-    const hashPassword = (password) => {
+    const hashPassword = (param) => {
         const password = _.isString(param) ? param : param.toString();
         return bcrypt.genSalt(BCryptRounds)
             .then(salt => {
@@ -49,6 +50,11 @@ module.exports = (models) => {
         return User.findOne({username});
     };
 
+	const getUserById = async (_id) => {
+		return User.findOne({_id});
+
+	}
+
 	const findUsersByType = (type) => {
 		return User.find({type});
 	}
@@ -69,7 +75,10 @@ module.exports = (models) => {
 	
 
 	/********************************* days **************************************** */
-
+	/**
+	 * @param  {Object} params
+	 * @param  {string} params.username
+	 */
 	const createDays = (params) => {
 		return Days.create(params);
 	};
@@ -122,7 +131,7 @@ module.exports = (models) => {
 		const { password, username } = params;
 		const userExist = await checkUser(username);
 		const hashedPassword =  await hashPassword(password);
-
+		console.log('userExist', userExist)
 		if (!userExist) {
 			let user = {
 				username,
@@ -136,8 +145,20 @@ module.exports = (models) => {
 				type: UserTypes.Waiter
 			};
 
+			let days = {
+				username,
+				days: [],
+				timestamp: {
+					created: moment.utc() || new Date(),
+                    lastUpdated: moment.utc() || new Date()
+				}
+			}
 			let newUser = await createUser(user);
-			return newUser;
+			let userDays = await createDays(days);
+			return {
+				days: userDays,
+				user: newUser
+			};
 			
 		}
 		return false;
@@ -150,7 +171,8 @@ module.exports = (models) => {
        decryptPassword,
 	   hashPassword,
 	   checkUserLoginData,
-	   signUpCheck
+	   signUpCheck,
+	   getUserById
     //    createUser,
     //    createDays,
     //    findDays,

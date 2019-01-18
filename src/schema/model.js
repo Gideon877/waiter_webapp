@@ -7,9 +7,9 @@ module.exports = (mongoUrl) => {
     const User = mongoose.model('User', {
         firstName: String,
         lastName: String,
+        timestamp: Object,
         username: { type: String, required: true, unique: true },
         password: { type: String, required: true, bcrypt: true },
-        timestamp: String,
         type: { type: String, required: true, unique: false }
         
     });
@@ -17,7 +17,7 @@ module.exports = (mongoUrl) => {
     const Days = mongoose.model('Days', {
         username: { type: String, required: true, unique: true },
         days: Array,
-        timestamp: String
+        timestamp: Object
     });
 
     return {
