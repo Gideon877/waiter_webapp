@@ -24,7 +24,8 @@ const HashPassword = param => {
 /**
  * @param  {Object} param
  * @param  {String} param.password
- * @param  {String} param.user
+ * @param  {Object} param.user
+ * @param  {String} param.user.password
  */
 const DecryptPassword = param => {
     let { password, user } = param || {};

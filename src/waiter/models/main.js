@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 module.exports = function(mongoUrl){
     mongoose.Promise = global.Promise;
-    mongoose.connect(mongoUrl);
+    mongoose.connect(mongoUrl, { useNewUrlParser: true });
 
     const User = mongoose.model('User', {
         firstName: String,

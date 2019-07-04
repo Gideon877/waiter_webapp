@@ -10,7 +10,7 @@ describe('auth functions', () => {
     const password = 'password';
 
     beforeAll(async () => {
-        connection = await MongoClient.connect('mongodb://localhost/waiters-tests', { useNewUrlParser: true });
+        connection = await MongoClient.connect('mongodb://localhost/waiters-tests');
         db = await connection.db('waiters-tests')
         users = db.collection('User');
         mockUser = { _id: 'some-user-id', name: 'John' };

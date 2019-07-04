@@ -5,12 +5,13 @@ const bodyParser = require('body-parser');
 const flash = require('express-flash');
 const session = require('express-session');
 
-const Route = require('./src/app');
+// const Route = require('./src/app');
+const Route = require('./src/waiter/steps');
 // const Handler = require('./src/waiter/handler');
 const Models = require('./src/waiter/models/main');
 const models = Models(process.env.MONGO_DB_URL || 'mongodb://localhost/waiters');
 
-// const route = Route(models);
+const route = Route(models);
 // const handler = Handler(models);
 const app = express();
 
@@ -56,7 +57,7 @@ app.get('/logout', function(req, res) {
 
 // login page
 // app.get('/login', route.sign_in);
-// app.post('/login', route.login);
+app.post('/login', route.Login);
 
 // waiter page
 // app.get('/waiters', (req, res) => {
