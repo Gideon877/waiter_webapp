@@ -5,10 +5,13 @@ const bodyParser = require('body-parser');
 const flash = require('express-flash');
 const session = require('express-session');
 
-const Route = require('./javascript/app');
-const Models = require('./models/models');
+const Route = require('./src/app');
+// const Handler = require('./src/waiter/handler');
+const Models = require('./src/waiter/models/main');
 const models = Models(process.env.MONGO_DB_URL || 'mongodb://localhost/waiters');
-const route = Route(models);
+
+// const route = Route(models);
+// const handler = Handler(models);
 const app = express();
 
 app.set("port", (process.env.PORT || 4444))
@@ -42,7 +45,8 @@ app.use(flash()); // set up http session
 app.get('/', function(req, res) {
     res.render('home');
 });
-app.post('/', route.home);
+
+// app.post('/', route.home);
 
 //logout screen
 app.get('/logout', function(req, res) {
@@ -51,16 +55,23 @@ app.get('/logout', function(req, res) {
 });
 
 // login page
-app.get('/login', route.sign_in);
-app.post('/login', route.login);
+// app.get('/login', route.sign_in);
+// app.post('/login', route.login);
 
 // waiter page
-app.get('/waiters/:user_id', route.dashboard);
-app.post('/waiters/:user_id', route.waiters);
+// app.get('/waiters', (req, res) => {
+//     res.render('waiters', {
+//         data: []
+//     })
+
+// });
+// app.post('/waiters', handler.waiterHome);
+// app.get('/waiters/:user_id', handler.waiterHome);
+// app.post('/waiters/:user_id', route.waiters);
 
 // admin page
-app.get('/days', route.days);
-app.get('/reset', route.reset);
+// app.get('/days', handler.days);
+// app.get('/reset', route.reset);
 
 var port = app.get("port");
 
