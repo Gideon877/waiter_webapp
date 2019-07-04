@@ -8,19 +8,15 @@ module.exports = function (models) {
 
     const Login = async (req, res) => {
         const { password, username } = req.body || {}
-        console.log('-------', req.body);
-        
         try {
             if (_.isEmpty(password) || _.isEmpty(username)) {
                 throw new Error(`username or password not provided!`)
             }
-
             const accessGranted = await shared.canLogin({ password, username });
             if (accessGranted) {
                 const grantedUser = await shared.getUserByUsername(username) || {};
                 success.body.user = grantedUser;
-                console.log('grantedUser', success,  success);
-                
+                // console.log('grantedUser', success,  success);
                 // req.session.user = grantedUser;
                 res.send(success);
             } else {
