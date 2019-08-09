@@ -2,13 +2,13 @@
 const _ = require('lodash');
 module.exports = function(models) { 
 
-    const login = (req, res, done) => {
+    const signIn = (req, res, done) => {
 
-        res.render('login', {});
+        res.render('signIn', {});
     }
     const signUp = (req, res, done) => {
 
-        res.render('login', {});
+        res.render('signUp', {});
     }
     const waiter = (req, res, done) => {
 
@@ -21,7 +21,7 @@ module.exports = function(models) {
 
 
     return {
-        login,
+        signIn,
         signUp,
         waiter,
         admin

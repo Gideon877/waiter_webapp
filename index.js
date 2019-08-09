@@ -7,12 +7,13 @@ const session = require('express-session');
 
 // const Route = require('./src/app');
 const Route = require('./src/waiter/steps');
+const Screen = require('./src/waiter/screens');
 // const Handler = require('./src/waiter/handler');
 const Models = require('./src/waiter/models/main');
 const models = Models(process.env.MONGO_DB_URL || 'mongodb://localhost/waiters');
 
 const route = Route(models);
-// const handler = Handler(models);
+const screen = Screen(models);
 const app = express();
 
 app.set("port", (process.env.PORT || 4444))
@@ -56,8 +57,9 @@ app.get('/logout', function(req, res) {
 });
 
 // login page
-// app.get('/login', route.sign_in);
+app.get('/login', screen.signIn);
 app.post('/login', route.Login);
+app.post('/create', route.Register);
 
 // waiter page
 // app.get('/waiters', (req, res) => {

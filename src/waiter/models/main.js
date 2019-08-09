@@ -4,8 +4,8 @@ module.exports = function(mongoUrl){
     mongoose.connect(mongoUrl, { useNewUrlParser: true });
 
     const User = mongoose.model('User', {
-        firstName: String,
-        lastName: String,
+        firstName: { type: String, required: true, unique: false },
+        lastName: { type: String, required: true, unique: false },
         username: { type: String, required: true, unique: true },
         password: { type: String, required: true, bcrypt: true },
         email: { type: String, required: true, unique: true},
@@ -24,7 +24,7 @@ module.exports = function(mongoUrl){
     })
 
     const WaiterDays = mongoose.model('WaiterDays', {
-        dayId: { type: String, required: true, unique: true },
+        dayId: { type: String, required: true, unique: false },
         userId: { type: String, required: true, unique: false }
     })
 

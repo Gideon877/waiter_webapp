@@ -6,7 +6,7 @@ const _ = require('lodash');
 const { HashPassword, DecryptPassword } = require('../../src/auth/main')
 const { UserTypes } = require('../../src/waiter/constants');
 const { mockUser } = require('../data/steps.mockUser')
-const Func = require('../../src/waiter/lib/func');
+const Func = require('../../src/waiter/lib/user');
 
 describe('when user login', () => {
     const User = models.User;
@@ -19,13 +19,13 @@ describe('when user login', () => {
             await User.create(mockUser);
         } catch (e) {
             if (_.startsWith(e.message, errorStr)) {
-                await User.deleteMany()
+                await User.deleteOne({username})
             }
         }
     })
 
     afterAll(async () => {
-        await User.deleteMany()
+        await User.deleteOne({ username })
         await connection.close();
         await db.close();
     });
@@ -33,7 +33,7 @@ describe('when user login', () => {
     describe('user should', () => {
         test('1.0 Login successfully', async () => {
             const accessGranted = await func.canLogin({ password, username });
-            expect(accessGranted).toBeTruthy()
+            expect(accessGranted).toBeTruthy();
         })
 
         test('1.1 => Wrong password: fail to login', async () => {
@@ -54,7 +54,7 @@ describe('when user login', () => {
         test('1.4 => No data: fail to login', async () => {
             const accessGranted = await func.canLogin({});
             expect(accessGranted).toBeFalsy()
-        })  
+        })
     })
 
 })
