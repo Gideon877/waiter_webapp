@@ -43,12 +43,14 @@ app.use(session({
 }));
 app.use(flash()); // set up http session
 
-// registration page
-app.get('/', function(req, res) {
-    res.render('home');
-});
+// home page
+app.get('/', (req, res) => {
+    res.render('home')
+})
 
-// app.post('/', route.home);
+// registration page
+app.get('/signUp', screen.signUp);
+app.post('/signUp', route.Register);
 
 //logout screen
 app.get('/logout', function(req, res) {

@@ -1,9 +1,9 @@
 "use strict"
 const _ = require('lodash');
 const Func = require('./lib/user');
-const { DecryptPassword, HashPassword} = require('../auth/main');
+const { DecryptPassword, HashPassword } = require('../auth/main');
 const faker = require('faker');
-const { UserTypes } = require('./constants');
+const { UserTypes, RegEx } = require('./constants');
 
 module.exports = function (models) {
     const shared = Func(models)
@@ -11,9 +11,7 @@ module.exports = function (models) {
     const Login = async (req, res) => {
         const { password, username } = req.body;
         try {
-
-            await errorHandler({password, username});
-            
+            await errorHandler({ password, username });
             const accessGranted = await shared.canLogin({ password, username });
             if (accessGranted) {
                 success.body.user = grantedUser;
@@ -34,21 +32,16 @@ module.exports = function (models) {
     }
 
     const AddUser = async (req, res) => {
-
-        const { user } = req.session || undefined;
-        if (!_.isEmpty(user)) {
-            success.body.user = user; res.send(success);
-        }
+        const data = req.body || {};
+        let { password, username } = data //|| 'password';
+        // const { user } = req.session || undefined;
+        // if (!_.isEmpty(user)) {
+        //     success.body.user = user; res.send(success);
+        // }
 
         try {
-            const data = req.body || {};
-            let { password } = data || 'password';
+            await SignUpErrorHandler(data);
             password = await HashPassword(password);
-
-            if (_.isEmpty(data))
-                throw new Error(`username or password not provided!`);
-
-            const username = data.username || faker.internet.userName;
             const get = faker.name;
             const address = faker.address;
             const userData = {
@@ -67,31 +60,61 @@ module.exports = function (models) {
                 userType: UserTypes.Waiter,
             };
 
-            const canRegister = await shared.isDataValid(userData);
-            if (canRegister) { 
-                await shared.createUser(userData); 
-                const grantedUser = await shared.getUserByUsername(username) || {};
-                success.body.user = grantedUser;
-                // console.log('grantedUser', success,  success);
-                // req.session.user = grantedUser;
-                res.send(success);
+            await shared.createUser(userData);
+            
+            const state = {
+                status: 'disabled'
             }
+            
+            res.render('signUp', {
+                userData, state, success: {
+                    message: `Successfully registered account with user ${username}`
+                }
+            })
+            
+            // success.body.user = userData;
+            // res.send(success);
 
         } catch (error) {
+            let message = undefined
+            if(error.code === 11000) {
+                message = 'User already exist!';
+            } 
+
             fail.error = {
                 code: fail.statusCode,
-                message: error.message
+                message: message || error.message
             };
-            res.send(fail)
+            // res.send(fail)
+            res.render('signUp', fail)
         }
 
 
 
     }
 
+    const SignUpErrorHandler = (data) => {
+        const { firstName, lastName, username, password, email } = data;
+        if (_.isEmpty(firstName)) {
+            throw new Error('Please enter firstname')
+        }
+        if (_.isEmpty(lastName)) {
+            throw new Error('Please enter lastname')
+        }
+        if (_.isEmpty(username)) {
+            throw new Error('Please enter username')
+        }
+        if (_.isEmpty(password)) {
+            throw new Error('Please enter password')
+        }
+        if (!RegEx.Email.test(email)) {
+            throw new Error('Please enter valid email address')
+        }
+    }
+
     const errorHandler = async (data) => {
         const { username, password } = data;
-        
+
         if (_.isEmpty(username) && _.isEmpty(password)) {
             throw new Error(`Username and password not provided!`)
         }
@@ -102,7 +125,7 @@ module.exports = function (models) {
             throw new Error(`Password not provided!`)
         }
         const grantedUser = await shared.getUserByUsername(username) || {};
-        if(_.isEmpty(grantedUser)) {
+        if (_.isEmpty(grantedUser)) {
             throw new Error(`Username ${username} not registered!`)
         }
     }
