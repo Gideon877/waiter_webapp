@@ -1,0 +1,97 @@
+<div class="container">
+    <h2>Waiter App</h2>
+    <div class="row">
+
+        <hr>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/waiter/{{user._id}}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{user.firstName}} {{user.lastName}}</a></li>
+            </ol>
+        </nav>
+        <hr>
+        <!-- left column -->
+        <div class="col-md-3">
+            <div class="list-group">
+                <a href="/waiter/{{user._id}}" class="list-group-item list-group-item-action">Home</a>
+                <a href="/waiter/{{user._id}}/profile" class="list-group-item list-group-item-action active">Profile</a>
+                <a href="/waiter/{{user._id}}/inbox" class="list-group-item list-group-item-action">Inbox</a>
+                <a href="/waiter/{{user._id}}/friends" class="list-group-item list-group-item-action">Friends</a>
+                <a href="/waiter/{{user._id}}/schedule" class="list-group-item list-group-item-action">Weekly
+                    schedule</a>
+                <a href="/logout" class="list-group-item list-group-item-danger">Logout</a>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <div class="card text-white bg-info mb-3" style="max-width: 540px;">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+                        <img src="{{user.image}}" class="card-img" alt="...">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">{{user.firstName}} {{user.lastName}}</h5>
+                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
+                                additional content. This content is a little bit longer.</p>
+                            {{#if user.timestamp}}
+                            <p class="card-text"><small class="text-muted">Last updated
+                                    {{user.timestamp.lastUpdated}}</small></p>
+                            {{/if}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <form action="#" method="POST">
+            <div class="form-group row">
+                <label for="firstName" class="col-sm-2 col-form-label">Firstname</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="firstName" value="{{user.firstName}}" id="firstName" placeholder="Firstname" {{state.status}}>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="lastName" class="col-sm-2 col-form-label">Lastname</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="lastName" value="{{user.lastName}}" id="lastName" placeholder="Lastname" {{state.status}}>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="username" class="col-sm-2 col-form-label">Username</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="username" value="{{user.username}}" id="username" placeholder="Username" {{state.status}}>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="email" class="col-sm-2 col-form-label">Email</label>
+                <div class="col-sm-10">
+                    <input type="email" class="form-control" name="email" value="{{user.email}}" id="email" placeholder="Email" {{state.status}}>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="password" class="col-sm-2 col-form-label">Password</label>
+                <div class="col-sm-10">
+                    <input type="password" class="form-control" name="password" value="{{user.password}}" id="password" placeholder="Password" {{state.status}}>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-10">
+                    <button type="submit" class="btn btn-primary" {{state.status}}>Update</button>
+                    <a href="#" type="submit" class="btn btn-warning" {{state.status}}>Delete</a>
+                </div>
+            </div>
+            {{#if error}} 
+            <div class="alert alert-danger" role="alert">
+                {{error.message}}
+            </div>
+            {{/if}}
+            {{#if success}} 
+            <div class="alert alert-success" role="alert">
+                {{success.message}}
+            </div>
+            {{/if}}
+        </form>
+        </div>
+    </div>
+</div>

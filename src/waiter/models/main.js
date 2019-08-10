@@ -17,32 +17,57 @@ module.exports = function(mongoUrl){
         phoneNumber: { type: String, required: false },
         active: { type: Boolean, required: true},
         userType: { type: String, required: true},
+        timestamp: {
+            created: {type: String, required: true, unique: false},
+            lastUpdated: {type: String, required: true, unique: false},
+            lastSeen: {type: String, required: true, unique: false},
+        }
     });
 
     const Days = mongoose.model('Days', {
         day: { type: String, required: true, unique: true }, //'Sunday',
+        timestamp: {
+            created: {type: String, required: true, unique: false},
+            lastUpdated: {type: String, required: true, unique: false},
+        }
     })
 
     const WaiterDays = mongoose.model('WaiterDays', {
         dayId: { type: String, required: true, unique: false },
-        userId: { type: String, required: true, unique: false }
+        userId: { type: String, required: true, unique: false },
+        timestamp: {
+            created: {type: String, required: true, unique: false},
+            lastUpdated: {type: String, required: true, unique: false},
+        }
     })
 
     const Friends = mongoose.model('Friends', {
         userId: { type: String, required: true, unique: false },
-        friendId: { type: String, required: true, unique: false }
+        friendId: { type: String, required: true, unique: false },
+        timestamp: {
+            created: {type: String, required: true, unique: false},
+            lastUpdated: {type: String, required: true, unique: false},
+        }
     })
 
     const Comments = mongoose.model('Comments', {
         postId: { type: String, required: true, unique: false },
         details: { type: String, required: true, unique: true },
         timestamp: String,
+        timestamp: {
+            created: {type: String, required: true, unique: false},
+            lastUpdated: {type: String, required: true, unique: false},
+        }
     })
 
     const Post = mongoose.model('Post', {
         userId: { type: String, required: true, unique: false },
         commentIds: { type: String, required: false, unique: false },
         details: { type: String, required: true, unique: true },
+        timestamp: {
+            created: {type: String, required: true, unique: false},
+            lastUpdated: {type: String, required: true, unique: false},
+        }
     })
 
     return {

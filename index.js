@@ -4,6 +4,8 @@ const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
 const flash = require('express-flash');
 const session = require('express-session');
+const moment = require('moment');
+
 
 // const Route = require('./src/app');
 const Route = require('./src/waiter/steps');
@@ -44,9 +46,7 @@ app.use(session({
 app.use(flash()); // set up http session
 
 // home page
-app.get('/', (req, res) => {
-    res.render('home')
-})
+app.get('/', screen.homePage)
 
 // registration page
 app.get('/signUp', screen.signUp);
@@ -54,6 +54,11 @@ app.post('/signUp', route.Register);
 
 //logout screen
 app.get('/logout', function(req, res) {
+    const timestamp = moment.utc().local().format();
+    let user = req.session;
+    if(user && user.timestamp) {
+        user.timestamp.lastSeen = timestamp;
+    }
     req.session.destroy();
     res.redirect('/login');
 });
@@ -67,6 +72,9 @@ app.post('/add', route.addDays);
 // waiter page
 app.get('/waiter/:id', screen.waiter)
 app.get('/waiter/:id/profile', screen.profile);
+app.get('/waiter/:id/inbox', screen.inbox);
+app.get('/waiter/:id/schedule', screen.schedule);
+app.get('/waiter/:id/friends', screen.friends);
 
 // app.post('/waiter', handler.waiterHome);
 // app.post('/waiter/:user_id', route.waiters);

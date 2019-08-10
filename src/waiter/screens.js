@@ -3,10 +3,24 @@ const _ = require('lodash');
 // const days = require('./lib/days')
 const User = require('./lib/user');
 const Admin = require('./lib/admin');
+const moment = require('moment');
+
 
 module.exports = function(models) { 
     const shared = User(models)
     const admin = Admin(models)
+
+    const homePage = async (req, res, done) => {
+        try {
+            // await admin.addDays();
+            // await admin.addUsers();
+            res.render('home');
+        } catch (error) {
+            console.log(error.message);
+            
+            res.render('home');
+        }
+    }
 
     const signIn = (req, res, done) => {
 
@@ -16,58 +30,151 @@ module.exports = function(models) {
 
         res.render('signUp', {});
     }
-    const waiter = async (req, res, done) => {
+
+    const waiterHome = async (req, res, done) => {
         const { id } = req.params;
+        await admin.addDays();
         if(_.isEmpty(id)) {
             res.redirect('/login');
             return done();
+        }
+
+        const user = await shared.getUserById(id);
+
+        if(_.isEmpty(user)) {
+            res.redirect('/login');
+            return done();
+        }
+
+        res.render('waiters', {
+            user
+        })
+    }
+
+    const inboxScreen = async (req, res, done) => {
+        const { id } = req.params;
+        if(_.isEmpty(id)) {
+            res.redirect('/login')
+        }
+
+        const user = await shared.getUserById(id);
+        const messages = await shared.getUser(); //placeholder
+
+        if(_.isEmpty(user)) {
+            res.redirect('/login');
+            return done();
+        }
+
+        
+
+        res.render('waiters/inbox', {
+            user, messages
+        })
+    } 
+    const friendsScreen = async (req, res, done) => {
+        const { id } = req.params;
+        if(_.isEmpty(id)) {
+            res.redirect('/login')
+        }
+
+        const user = await shared.getUserById(id);
+        const friends = await shared.getUser();
+
+        if(_.isEmpty(user)) {
+            res.redirect('/login');
+            return done();
+        }
+
+        res.render('waiters/friends', {
+            user,
+            friends
+        })
+    } 
+    const profileScreen = async (req, res, done) => {
+        const { id } = req.params;
+        if(_.isEmpty(id)) {
+            res.redirect('/login')
+        }
+
+        const user = await shared.getUserById(id);
+        let { created, lastUpdated } = {
+            created: moment().from(user.timestamp.created),
+            lastUpdated: moment().from(user.timestamp.lastUpdated),
+        }
+
+        user.timestamp = {
+            created,
+            lastUpdated
+        }
+        
+        if(_.isEmpty(user)) {
+            res.redirect('/login');
+            return done();
+        }
+        const state = {
+            status: 'disabled'
+        }
+
+        res.render('waiters/profile', {
+            user,
+            state
+        })
+    } 
+    const scheduleScreen = async (req, res, done) => {
+        const { id } = req.params;
+        if(_.isEmpty(id)) {
+            res.redirect('/login')
         }
 
         const user = await shared.getUserById(id);
         const days = await admin.getDays();
+    
+        console.log(days);
+        
 
         if(_.isEmpty(user)) {
             res.redirect('/login');
             return done();
         }
 
-        console.log(days, 'database');
-        
-
-        res.render('waiters', {
+        res.render('waiters/schedule', {
             user,
-            days
+            days,
         })
-        
-    }
-    const adminScreen = (req, res, done) => {
+    } 
 
+    const adminScreen = (req, res, done) => {
         res.render('login', {});
     }
 
-    const getProfile = async (req, res, done) => {
-        const { id } = req.params;
-        if(_.isEmpty(id)) {
-            res.redirect('/login');
-            return done();
-        }
+    // const getProfile = async (req, res, done) => {
+    //     const { id } = req.params;
+    //     if(_.isEmpty(id)) {
+    //         res.redirect('/login');
+    //         return done();
+    //     }
 
-        const user = await shared.getUserById(id);
+    //     const user = await shared.getUserById(id);
 
-        if(_.isEmpty(user)) {
-            res.redirect('/login');
-            return done();
-        }
+    //     if(_.isEmpty(user)) {
+    //         res.redirect('/login');
+    //         return done();
+    //     }
 
-        res.render('waiters', {user})
-    }
+    //     res.render('waiters', {user})
+    // }
 
     return {
         signIn,
         signUp,
-        waiter,
+        waiter: waiterHome,
         admin: adminScreen,
-        profile: getProfile
+        profile: profileScreen,
+        friends: friendsScreen,
+        inbox: inboxScreen,
+        schedule: scheduleScreen,
+        homePage
+        
     }
 
 

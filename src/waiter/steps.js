@@ -1,15 +1,17 @@
 "use strict"
 const _ = require('lodash');
 const Func = require('./lib/user');
-const Admin = require('./lib/admin')
+const Admin = require('./lib/admin');
 const { DecryptPassword, HashPassword } = require('../auth/main');
 const faker = require('faker');
 const { UserTypes, RegEx } = require('./constants');
-const days = require('./lib/days')
+const days = require('./lib/days');
+const moment = require('moment');
+
 
 module.exports = function (models) {
-    const shared = Func(models)
-    const admin = Admin(models)
+    const shared = Func(models);
+    const admin = Admin(models);
 
     const signIn = async (req, res) => {
         const { password, username } = req.body;
@@ -56,7 +58,7 @@ module.exports = function (models) {
 
     const AddUser = async (req, res) => {
         const data = req.body || {};
-        let { password, username } = data //|| 'password';
+        let { password, username } = data; //|| 'password';
         // const { user } = req.session || undefined;
         // if (!_.isEmpty(user)) {
         //     success.body.user = user; res.send(success);
@@ -65,8 +67,9 @@ module.exports = function (models) {
         try {
             await SignUpErrorHandler(data);
             password = await HashPassword(password);
-            const get = faker.name;
-            const address = faker.address;
+            let get = faker.name;
+            let address = faker.address;
+            const timestamp = moment.utc().local().format();
             const userData = {
                 firstName: data.firstName || get.firstName(),
                 lastName: data.lastName || get.lastName(),
@@ -81,6 +84,11 @@ module.exports = function (models) {
                 phoneNumber: faker.phone.phoneNumber(),
                 active: true,
                 userType: UserTypes.Waiter,
+                timestamp: {
+                    created: timestamp,
+                    lastUpdated: timestamp,
+                    lastSeen: timestamp,
+                }
             };
 
             await shared.createUser(userData);
@@ -99,7 +107,7 @@ module.exports = function (models) {
             // res.send(success);
 
         } catch (error) {
-            let message = undefined
+            let message = undefined;
             if(error.code === 11000) {
                 message = 'User already exist!';
             } 
@@ -109,7 +117,7 @@ module.exports = function (models) {
                 message: message || error.message
             };
             // res.send(fail)
-            res.render('signUp', fail)
+            res.render('signUp', fail);
         }
 
 
