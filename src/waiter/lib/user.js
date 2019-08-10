@@ -15,6 +15,10 @@ module.exports = (models) => {
         return User.findOne({ username })
     }
 
+    const getUserById = (_id) => {
+        return User.findOne({ _id })
+    }
+
     const createUser = async (userData) => {
         return User.create(userData);
     }
@@ -68,5 +72,5 @@ module.exports = (models) => {
         return true;
     }
 
-    return { getUser, getUserByUsername, canLogin, createUser, isDataValid }
+    return { getUser, getUserByUsername, canLogin, createUser, isDataValid, getUserById }
 }

@@ -1,22 +1,45 @@
 "use strict"
 const _ = require('lodash');
 const Func = require('./lib/user');
+const Admin = require('./lib/admin')
 const { DecryptPassword, HashPassword } = require('../auth/main');
 const faker = require('faker');
 const { UserTypes, RegEx } = require('./constants');
+const days = require('./lib/days')
 
 module.exports = function (models) {
     const shared = Func(models)
+    const admin = Admin(models)
 
-    const Login = async (req, res) => {
+    const signIn = async (req, res) => {
         const { password, username } = req.body;
+        
         try {
             await errorHandler({ password, username });
+            await admin.addDays();
             const accessGranted = await shared.canLogin({ password, username });
             if (accessGranted) {
-                success.body.user = grantedUser;
+                const user = await shared.getUserByUsername(username)
+                if(_.isEqual(user.userType, UserTypes.Admin)) {
+                    res.send('admin') //change to redirect
+                    return
+                }
+
+                switch (user.userType) {
+                    case UserTypes.Admin:
+                        res.send('admin');
+                        break;
+                    case UserTypes.Waiter:
+                        res.redirect(`/waiter/${user._id}`);
+                        break;
+                    default:
+                        res.send('admin');
+                        break;
+                }
+                
+                // success.body.user = grantedUser;
                 // req.session.user = grantedUser;
-                res.send(success);
+                // res.send(success);
             } else {
                 throw new Error(`Access denied for username '${username}'!`)
             }
@@ -47,8 +70,8 @@ module.exports = function (models) {
             const userData = {
                 firstName: data.firstName || get.firstName(),
                 lastName: data.lastName || get.lastName(),
-                username: data.username || faker.internet.userName,
-                password: password,
+                username: username || faker.internet.userName,
+                password: password || 'password',
                 email: data.email || faker.internet.email(),
                 image: faker.internet.avatar(),
                 country: address.country(),
@@ -68,7 +91,7 @@ module.exports = function (models) {
             
             res.render('signUp', {
                 userData, state, success: {
-                    message: `Successfully registered account with user ${username}`
+                    message: `Successfully registered account with user ${userData.username}`
                 }
             })
             
@@ -93,6 +116,14 @@ module.exports = function (models) {
 
     }
 
+    const addDays = async (req, res) => {
+        console.log(req.body, 'body');
+        const user = await shared.getUserByUsername("jd01");
+        console.log(user);
+        
+        res.render('waiters', {days, user })
+    }
+
     const SignUpErrorHandler = (data) => {
         const { firstName, lastName, username, password, email } = data;
         if (_.isEmpty(firstName)) {
@@ -107,9 +138,9 @@ module.exports = function (models) {
         if (_.isEmpty(password)) {
             throw new Error('Please enter password')
         }
-        if (!RegEx.Email.test(email)) {
-            throw new Error('Please enter valid email address')
-        }
+        // if (!RegEx.Email.test(email)) {
+        //     throw new Error('Please enter valid email address')
+        // }
     }
 
     const errorHandler = async (data) => {
@@ -141,8 +172,10 @@ module.exports = function (models) {
     }
 
     return {
-        Login,
+        signIn,
         Register: AddUser,
+        addDays,
+        // getProfile
     }
 
 }

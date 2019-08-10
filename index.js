@@ -60,19 +60,16 @@ app.get('/logout', function(req, res) {
 
 // login page
 app.get('/login', screen.signIn);
-app.post('/login', route.Login);
-app.post('/create', route.Register);
+app.post('/signIn', route.signIn);
+
+app.post('/add', route.addDays);
 
 // waiter page
-// app.get('/waiters', (req, res) => {
-//     res.render('waiters', {
-//         data: []
-//     })
+app.get('/waiter/:id', screen.waiter)
+app.get('/waiter/:id/profile', screen.profile);
 
-// });
-// app.post('/waiters', handler.waiterHome);
-// app.get('/waiters/:user_id', handler.waiterHome);
-// app.post('/waiters/:user_id', route.waiters);
+// app.post('/waiter', handler.waiterHome);
+// app.post('/waiter/:user_id', route.waiters);
 
 // admin page
 // app.get('/days', handler.days);
