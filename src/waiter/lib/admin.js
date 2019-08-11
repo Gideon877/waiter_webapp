@@ -18,7 +18,7 @@ module.exports = models => {
     }
 
     const getWaiterDaysByUserId = async (userId) => {
-        return WaiterDays.find({userId});
+        return WaiterDays.find({ userId });
     }
 
     const createWaiterDays = async (data) => {
@@ -26,7 +26,7 @@ module.exports = models => {
     }
 
     const removeWaiterDaysByUserId = async (userId) => {
-        return WaiterDays.deleteMany({userId});
+        return WaiterDays.deleteMany({ userId });
     }
 
     const addDays = async () => {
@@ -41,7 +41,7 @@ module.exports = models => {
     }
 
     const addWaiters = async () => {
-        
+
     }
 
     async function getUser() {
@@ -74,24 +74,24 @@ module.exports = models => {
     const addUsers = async () => {
         let users = []
         const value = 20;
-        
+
         for (let index = 0; value > users.length; index++) {
             let user = await getUser();
-            if(index === 0) {
+            if (index === 0) {
                 user.userType = UserTypes.Admin;
                 user.firstName = 'Thabang';
                 user.lastName = 'Gideon';
                 user.username = 'admin';
             }
-            if(!users.includes(user)){
+            if (!users.includes(user)) {
                 users.push(user);
             }
         }
-        
-        if(!_.isEmpty(users)) {
+
+        if (!_.isEmpty(users)) {
             await User.create(users);
             console.log(`${users.length} users created!`);
-            
+
         } else {
             throw new Error('Failed to generate users');
         }

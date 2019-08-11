@@ -5,15 +5,11 @@ const Admin = require('./lib/admin');
 const { DecryptPassword, HashPassword } = require('../auth/main');
 const faker = require('faker');
 const { UserTypes, RegEx } = require('./constants');
-// const days = require('./lib/days');
 const moment = require('moment');
-
 
 module.exports = function (models) {
     const shared = Func(models);
     const admin = Admin(models);
-    const Days = models.Days;
-    const WaiterDays = models.WaiterDays;
 
     const signIn = async (req, res) => {
         const { password, username } = req.body;
@@ -166,7 +162,7 @@ module.exports = function (models) {
                 }
             });
 
-            if(_.isEmpty(arr)) {
+            if (_.isEmpty(arr)) {
                 throw new Error('Failed to create schedule')
             }
 
@@ -236,7 +232,6 @@ module.exports = function (models) {
         signIn,
         Register: AddUser,
         schedule: createSchedule,
-        // getProfile,
     }
 
 }
