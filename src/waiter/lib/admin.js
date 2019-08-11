@@ -17,6 +17,10 @@ module.exports = models => {
         return Days.find();
     }
 
+    const getWaiterDays = async (_id) => {
+        return Days.find({waiters: _id });
+    }
+
     const addDays = async () => {
         try {
             const results = await getDays();
@@ -26,6 +30,10 @@ module.exports = models => {
         } catch (error) {
             return new Error(error.message)
         }
+    }
+
+    const addWaiters = async () => {
+        
     }
 
     async function getUser() {
@@ -83,6 +91,8 @@ module.exports = models => {
     return {
         getDays,
         addDays,
-        addUsers
+        addUsers,
+        addWaiters,
+        getWaiterDays
     };
 };

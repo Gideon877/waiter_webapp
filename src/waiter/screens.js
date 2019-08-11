@@ -12,11 +12,11 @@ module.exports = function(models) {
 
     const homePage = async (req, res, done) => {
         try {
-            // await admin.addDays();
+            await admin.addDays();
             // await admin.addUsers();
             res.render('home');
         } catch (error) {
-            console.log(error.message);
+            // console.log(error.message);
             
             res.render('home');
         }
@@ -127,9 +127,18 @@ module.exports = function(models) {
         }
 
         const user = await shared.getUserById(id);
-        const days = await admin.getDays();
+        let days = await admin.getDays();
+
+        // console.log(days[0]);
+        days.forEach(day => {
+            const howMany = day.waiters.length;
+            day.count = howMany;
+            day.available = 3 - howMany;
+        })
+
+        
     
-        console.log(days);
+        // console.log(days);
         
 
         if(_.isEmpty(user)) {

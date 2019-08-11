@@ -1,5 +1,5 @@
 <div class="container">
-    <h2>Waiter App</h2>
+    <h2>Schedule</h2>
     <div class="row">
 
         <hr>
@@ -23,7 +23,7 @@
         </div>
 
         <div class="col-md-9">
-            <form action="/add" method="POST">
+            <form action="/waiter/{{user._id}}/schedule" method="POST">
                 <table class="table">
                     {{!-- <caption>List of users</caption> --}}
                     <thead>
@@ -41,13 +41,15 @@
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">
                                         <input type="checkbox" value="{{this._id}}" name="{{this.day}}"
-                                            aria-label="Checkbox for following text input">
+                                            aria-label="Checkbox for following text input"
+                                            {{this.status}}
+                                            >
                                     </div>
                                 </div>
                             </th>
                             <td>{{this.day}}</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
+                            <td>{{this.count}}</td>
+                            <td>{{this.available}}</td>
                         </tr>
                         {{/each}}
                     </tbody>

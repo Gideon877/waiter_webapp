@@ -67,7 +67,7 @@ app.get('/logout', function(req, res) {
 app.get('/login', screen.signIn);
 app.post('/signIn', route.signIn);
 
-app.post('/add', route.addDays);
+// app.post('/add', route.addDays);
 
 // waiter page
 app.get('/waiter/:id', screen.waiter)
@@ -76,6 +76,7 @@ app.get('/waiter/:id/inbox', screen.inbox);
 app.get('/waiter/:id/schedule', screen.schedule);
 app.get('/waiter/:id/friends', screen.friends);
 
+app.post('/waiter/:id/schedule', route.schedule);
 // app.post('/waiter', handler.waiterHome);
 // app.post('/waiter/:user_id', route.waiters);
 

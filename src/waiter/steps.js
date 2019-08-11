@@ -5,24 +5,25 @@ const Admin = require('./lib/admin');
 const { DecryptPassword, HashPassword } = require('../auth/main');
 const faker = require('faker');
 const { UserTypes, RegEx } = require('./constants');
-const days = require('./lib/days');
+// const days = require('./lib/days');
 const moment = require('moment');
 
 
 module.exports = function (models) {
     const shared = Func(models);
     const admin = Admin(models);
+    const Days = models.Days;
 
     const signIn = async (req, res) => {
         const { password, username } = req.body;
-        
+
         try {
             await errorHandler({ password, username });
             await admin.addDays();
             const accessGranted = await shared.canLogin({ password, username });
             if (accessGranted) {
                 const user = await shared.getUserByUsername(username)
-                if(_.isEqual(user.userType, UserTypes.Admin)) {
+                if (_.isEqual(user.userType, UserTypes.Admin)) {
                     res.send('admin') //change to redirect
                     return
                 }
@@ -38,7 +39,7 @@ module.exports = function (models) {
                         res.send('admin');
                         break;
                 }
-                
+
                 // success.body.user = grantedUser;
                 // req.session.user = grantedUser;
                 // res.send(success);
@@ -92,25 +93,25 @@ module.exports = function (models) {
             };
 
             await shared.createUser(userData);
-            
+
             const state = {
                 status: 'disabled'
             }
-            
+
             res.render('signUp', {
                 userData, state, success: {
                     message: `Successfully registered account with user ${userData.username}`
                 }
             })
-            
+
             // success.body.user = userData;
             // res.send(success);
 
         } catch (error) {
             let message = undefined;
-            if(error.code === 11000) {
+            if (error.code === 11000) {
                 message = 'User already exist!';
-            } 
+            }
 
             fail.error = {
                 code: fail.statusCode,
@@ -125,11 +126,38 @@ module.exports = function (models) {
     }
 
     const addDays = async (req, res) => {
-        console.log(req.body, 'body');
-        const user = await shared.getUserByUsername("jd01");
-        console.log(user);
+        const data = req.body;
+        const id = req.params.id;
+
+        const user = await shared.getUserById(id);
+        if (_.isEmpty(data)) {
+            throw new Error('Select days')
+        }
+
+        let days = await admin.getDays();
         
-        res.render('waiters', {days, user })
+        days.forEach(element => {
+            const howMany = element.waiters.length;
+            element.count = howMany;
+            element.available = 3 - howMany;
+            if(data[element.day] !== undefined) {
+                element.status = 'checked'
+                element.waiters.push(id)
+                element.count++;
+                element.available--;
+            }
+        });
+
+        // await days.save();
+
+        // console.log(days);
+
+        const ad = await admin.getWaiterDays(id);
+        console.log(ad);
+        
+        
+
+        res.render('waiters/schedule', { days, user })
     }
 
     const SignUpErrorHandler = (data) => {
@@ -146,9 +174,9 @@ module.exports = function (models) {
         if (_.isEmpty(password)) {
             throw new Error('Please enter password')
         }
-        // if (!RegEx.Email.test(email)) {
-        //     throw new Error('Please enter valid email address')
-        // }
+        if (!RegEx.Email.test(email)) {
+            throw new Error('Please enter valid email address')
+        }
     }
 
     const errorHandler = async (data) => {
@@ -182,8 +210,8 @@ module.exports = function (models) {
     return {
         signIn,
         Register: AddUser,
-        addDays,
-        // getProfile
+        schedule: addDays,
+        // getProfile,
     }
 
 }

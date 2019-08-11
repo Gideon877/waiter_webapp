@@ -3,43 +3,43 @@ const timestamp = moment.utc().toISOString();
 
 module.exports = [
     {
-        day: 'Sunday', timestamp: {
+        day: 'Sunday', count: 0, status: '', waiters: [], timestamp: {
             created: timestamp,
             lastUpdated: timestamp
         }
     },
     {
-        day: 'Monday', timestamp: {
+        day: 'Monday', count: 0, status: '', waiters: [], timestamp: {
             created: timestamp,
             lastUpdated: timestamp
         }
     },
     {
-        day: 'Tuesday', timestamp: {
+        day: 'Tuesday', count: 0, status: '', waiters: [], timestamp: {
             created: timestamp,
             lastUpdated: timestamp
         }
     },
     {
-        day: 'Wednesday', timestamp: {
+        day: 'Wednesday', count: 0, status: '', waiters: [], timestamp: {
             created: timestamp,
             lastUpdated: timestamp
         }
     },
     {
-        day: 'Thursday', timestamp: {
+        day: 'Thursday', count: 0, status: '', waiters: [], timestamp: {
             created: timestamp,
             lastUpdated: timestamp
         }
     },
     {
-        day: 'Friday', timestamp: {
+        day: 'Friday', count: 0, status: '', waiters: [], timestamp: {
             created: timestamp,
             lastUpdated: timestamp
         }
     },
     {
-        day: 'Saturday', timestamp: {
+        day: 'Saturday', count: 0, status: '', waiters: [], timestamp: {
             created: timestamp,
             lastUpdated: timestamp
         }
