@@ -129,12 +129,30 @@ module.exports = function(models) {
         const user = await shared.getUserById(id);
         let days = await admin.getDays();
 
-        // console.log(days[0]);
-        days.forEach(day => {
-            const howMany = day.waiters.length;
-            day.count = howMany;
-            day.available = 3 - howMany;
-        })
+        const data = await admin.getWaiterDaysByUserId(id);
+
+        days.forEach(element => {
+            const howMany = element.waiters.length;
+            element.count = howMany;
+            element.available = 3 - howMany;
+
+            data.forEach(val => {
+                // const _id = val.dayId
+
+                console.log(val.dayId);
+                console.log(element._id);
+                console.log(val.dayId == element._id);
+                
+
+                if (val.dayId == element._id) {
+                    element.status = 'checked'
+                    element.waiters.push(id)
+                    element.count++;
+                    element.available--;
+                }
+
+            })
+        });
 
         
     

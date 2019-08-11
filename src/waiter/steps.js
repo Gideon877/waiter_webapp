@@ -13,6 +13,7 @@ module.exports = function (models) {
     const shared = Func(models);
     const admin = Admin(models);
     const Days = models.Days;
+    const WaiterDays = models.WaiterDays;
 
     const signIn = async (req, res) => {
         const { password, username } = req.body;
@@ -125,39 +126,63 @@ module.exports = function (models) {
 
     }
 
-    const addDays = async (req, res) => {
+    const createSchedule = async (req, res) => {
         const data = req.body;
         const id = req.params.id;
+        try {
+            const user = await shared.getUserById(id);
+            if (_.isEmpty(data)) {
+                throw new Error('Please select three days')
+            }
 
-        const user = await shared.getUserById(id);
-        if (_.isEmpty(data)) {
-            throw new Error('Select days')
+            if (_.isEmpty(user)) {
+                throw new Error(`No user found with id:${id}`)
+            }
+            const getWaiterDays = await admin.getWaiterDaysByUserId(id);
+
+            if (!_.isEmpty(getWaiterDays)) {
+                await admin.removeWaiterDaysByUserId(id);
+            }
+
+            let days = await admin.getDays();
+            var arr = []
+            days.forEach(element => {
+                const howMany = element.waiters.length;
+                element.count = howMany;
+                element.available = 3 - howMany;
+                if (data[element.day] !== undefined) {
+                    element.status = 'checked'
+                    element.waiters.push(id)
+                    element.count++;
+                    element.available--;
+                    arr.push({
+                        dayId: data[element.day],
+                        userId: id,
+                        timestamp: {
+                            created: moment.utc().local().format(),
+                            lastUpdated: moment.utc().local().format()
+                        }
+                    })
+                }
+            });
+
+            if(_.isEmpty(arr)) {
+                throw new Error('Failed to create schedule')
+            }
+
+            await admin.createWaiterDays(arr);
+            res.render('waiters/schedule', { days, user })
+
+
+        } catch (error) {
+            fail.error = {
+                code: fail.statusCode,
+                message: error.message
+            };
+            // res.send(fail)
+            res.render('waiters/schedule', fail)
         }
 
-        let days = await admin.getDays();
-        
-        days.forEach(element => {
-            const howMany = element.waiters.length;
-            element.count = howMany;
-            element.available = 3 - howMany;
-            if(data[element.day] !== undefined) {
-                element.status = 'checked'
-                element.waiters.push(id)
-                element.count++;
-                element.available--;
-            }
-        });
-
-        // await days.save();
-
-        // console.log(days);
-
-        const ad = await admin.getWaiterDays(id);
-        console.log(ad);
-        
-        
-
-        res.render('waiters/schedule', { days, user })
     }
 
     const SignUpErrorHandler = (data) => {
@@ -210,7 +235,7 @@ module.exports = function (models) {
     return {
         signIn,
         Register: AddUser,
-        schedule: addDays,
+        schedule: createSchedule,
         // getProfile,
     }
 
