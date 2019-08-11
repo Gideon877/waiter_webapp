@@ -167,7 +167,8 @@ module.exports = function (models) {
             }
 
             await admin.createWaiterDays(arr);
-            res.render('waiters/schedule', { days, user })
+            res.redirect(`/waiter/${id}/schedule`)
+            // res.render('waiters/schedule', { days: _.sortBy(days, ['uniqueId']), user })
 
 
         } catch (error) {

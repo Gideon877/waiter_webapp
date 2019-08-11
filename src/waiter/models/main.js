@@ -27,6 +27,7 @@ module.exports = function (mongoUrl) {
     const Days = mongoose.model('Days', {
         day: { type: String, required: true, unique: true },
         count: { type: Number, require: false, unique: false },
+        uniqueId: { type: Number, require: true, unique: true },
         waiters: { type: Array, require: false, unique: false, 
             validate: [arrayLimit, '{PATH} exceeds the limit of 3'] },
         timestamp: {

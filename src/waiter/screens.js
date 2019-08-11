@@ -11,7 +11,7 @@ module.exports = function (models) {
     const homePage = async (req, res, done) => {
         try {
             await admin.addDays();
-            // await admin.addUsers();
+            await admin.addUsers();
             res.render('home');
         } catch (error) {
             // console.log(error.message);
@@ -122,7 +122,7 @@ module.exports = function (models) {
         const user = await shared.getUserById(id);
         let days = await admin.getDays();
 
-        const data = await admin.getWaiterDaysByUserId(id);
+        const data = await admin.findWaiterDays();
 
         days.forEach(element => {
             const howMany = element.waiters.length;
@@ -130,11 +130,13 @@ module.exports = function (models) {
             element.available = 3 - howMany;
 
             data.forEach(val => {
-                if (_.isEqual(val.dayId, element._id)) {
-                    element.status = 'checked'
+                if (val.dayId == element._id) {
                     element.waiters.push(id)
                     element.count++;
                     element.available--;
+                    if(val.userId == id) {
+                        element.status = 'checked'
+                    }
                 }
             })
         });
@@ -146,7 +148,7 @@ module.exports = function (models) {
 
         res.render('waiters/schedule', {
             user,
-            days,
+            days: _.sortBy(days, ['uniqueId']),
         })
     }
 

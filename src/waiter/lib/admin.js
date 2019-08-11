@@ -21,6 +21,10 @@ module.exports = models => {
         return WaiterDays.find({ userId });
     }
 
+    const findWaiterDays = async () => {
+        return WaiterDays.find();
+    }
+
     const createWaiterDays = async (data) => {
         return WaiterDays.create(data);
     }
@@ -103,6 +107,7 @@ module.exports = models => {
         addWaiters,
         getWaiterDaysByUserId,
         removeWaiterDaysByUserId,
-        createWaiterDays
+        createWaiterDays,
+        findWaiterDays
     };
 };

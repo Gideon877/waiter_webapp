@@ -3,43 +3,43 @@ const timestamp = moment.utc().toISOString();
 
 module.exports = [
     {
-        day: 'Sunday', count: 0, status: '', waiters: [], timestamp: {
+        day: 'Sunday', uniqueId: 1, count: 0, status: '', waiters: [], timestamp: {
             created: timestamp,
             lastUpdated: timestamp
         }
     },
     {
-        day: 'Monday', count: 0, status: '', waiters: [], timestamp: {
+        day: 'Monday', uniqueId: 2, count: 0, status: '', waiters: [], timestamp: {
             created: timestamp,
             lastUpdated: timestamp
         }
     },
     {
-        day: 'Tuesday', count: 0, status: '', waiters: [], timestamp: {
+        day: 'Tuesday', uniqueId: 3, count: 0, status: '', waiters: [], timestamp: {
             created: timestamp,
             lastUpdated: timestamp
         }
     },
     {
-        day: 'Wednesday', count: 0, status: '', waiters: [], timestamp: {
+        day: 'Wednesday', uniqueId: 4, count: 0, status: '', waiters: [], timestamp: {
             created: timestamp,
             lastUpdated: timestamp
         }
     },
     {
-        day: 'Thursday', count: 0, status: '', waiters: [], timestamp: {
+        day: 'Thursday', uniqueId: 5, count: 0, status: '', waiters: [], timestamp: {
             created: timestamp,
             lastUpdated: timestamp
         }
     },
     {
-        day: 'Friday', count: 0, status: '', waiters: [], timestamp: {
+        day: 'Friday', uniqueId: 6, count: 0, status: '', waiters: [], timestamp: {
             created: timestamp,
             lastUpdated: timestamp
         }
     },
     {
-        day: 'Saturday', count: 0, status: '', waiters: [], timestamp: {
+        day: 'Saturday', uniqueId: 7, count: 0, status: '', waiters: [], timestamp: {
             created: timestamp,
             lastUpdated: timestamp
         }
