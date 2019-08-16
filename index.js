@@ -38,7 +38,9 @@ app.use(bodyParser.json())
 app.use(session({
     secret: 'keyboard cat',
     cookie: {
-        maxAge: 60000 * 30
+        httpOnly: false,
+        maxAge: 60000 * 30,
+        secure: true
     },
     resave: true,
     saveUninitialized: true
@@ -81,7 +83,11 @@ app.post('/waiter/:id/schedule', route.schedule);
 // app.post('/waiter/:user_id', route.waiters);
 
 // admin page
-// app.get('/days', handler.days);
+app.get('/admin/:id', screen.admin);
+app.get('/admin/:id/profile', screen.profile);
+app.get('/admin/:id/inbox', screen.inbox);
+app.get('/admin/:id/schedule', screen.schedule);
+app.get('/admin/:id/employee', screen.friends);
 // app.get('/reset', route.reset);
 
 var port = app.get("port");

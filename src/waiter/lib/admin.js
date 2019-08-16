@@ -77,7 +77,7 @@ module.exports = models => {
 
     const addUsers = async () => {
         let users = []
-        const value = 20;
+        const value = 10;
 
         for (let index = 0; value > users.length; index++) {
             let user = await getUser();

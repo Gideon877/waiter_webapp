@@ -5,7 +5,7 @@
         <hr>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/waiter/{{user._id}}">Home</a></li>
+                <li class="breadcrumb-item"><a href="/admin/{{user._id}}">Home</a></li>
                 <li class="breadcrumb-item active" aria-current="page">{{user.firstName}} {{user.lastName}}</a></li>
             </ol>
         </nav>
@@ -13,18 +13,18 @@
         <!-- left column -->
         <div class="col-md-3">
             <div class="list-group">
-                <a href="/waiter/{{user._id}}" class="list-group-item list-group-item-action">Home</a>
-                <a href="/waiter/{{user._id}}/profile" class="list-group-item list-group-item-action">Profile</a>
-                <a href="/waiter/{{user._id}}/inbox" class="list-group-item list-group-item-action">Inbox</a>
-                <a href="/waiter/{{user._id}}/friends" class="list-group-item list-group-item-action">Friends</a>
-                <a href="/waiter/{{user._id}}/schedule" class="list-group-item list-group-item-action active">Weekly
+                <a href="/admin/{{user._id}}" class="list-group-item list-group-item-action">Home</a>
+                <a href="/admin/{{user._id}}/profile" class="list-group-item list-group-item-action">Profile</a>
+                <a href="/admin/{{user._id}}/inbox" class="list-group-item list-group-item-action">Inbox</a>
+                <a href="/admin/{{user._id}}/employee" class="list-group-item list-group-item-action">Employees</a>
+                <a href="/admin/{{user._id}}/schedule" class="list-group-item list-group-item-action active">Weekly
                     schedule</a>
                 <a href="/logout" class="list-group-item list-group-item-danger">Logout</a>
             </div>
         </div>
 
         <div class="col-md-9">
-            <form action="/waiter/{{user._id}}/schedule" method="POST">
+            <form action="/admin/{{user._id}}/schedule" method="POST">
                 <table class="table table-hover">
                     {{!-- <caption>List of users</caption> --}}
                     <thead>
@@ -39,17 +39,11 @@
                         {{#each days}}
                         <tr>
                             <th scope="row">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text">
-                                        <input type="checkbox" value="{{this._id}}" name="{{this.day}}"
-                                            aria-label="Checkbox for following text input" {{this.status}}
-                                            onclick='handleClick(this);'>
-                                    </div>
-                                </div>
+                                {{this.uniqueId}}
                             </th>
-                            <td>{{this.day}}</td>
+                            <td><a href="/admin/{{this._id}}/schedule">{{this.day}}</a></td>
                             <td>{{this.count}}</td>
-                            <td style="color: {{this.styleColor}}">{{this.available}}</td>
+                            <td>{{this.available}}</td>
                         </tr>
                         {{/each}}
                     </tbody>

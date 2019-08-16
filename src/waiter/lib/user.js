@@ -12,7 +12,7 @@ module.exports = (models) => {
     }
 
     const getUserByUsername = (username) => {
-        return User.findOne({ username })
+        return User.findOne({ username, active: true })
     }
 
     const getUserById = (_id) => {
@@ -20,7 +20,11 @@ module.exports = (models) => {
     }
 
     const createUser = async (userData) => {
-        return User.create(userData);
+        const user = await getUserByUsername(userData.username);
+        if(_.isEmpty(user)) {
+            return User.create(userData);
+        }
+        return new Error(`Username '${user.username}' already exist`);
     }
 
     /**

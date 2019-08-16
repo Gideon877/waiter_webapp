@@ -11,32 +11,29 @@ module.exports = function (models) {
     const shared = Func(models);
     const admin = Admin(models);
 
-    const signIn = async (req, res) => {
+    const signIn = async (req, res, done) => {
         const { password, username } = req.body;
-
         try {
             await errorHandler({ password, username });
             await admin.addDays();
             const accessGranted = await shared.canLogin({ password, username });
             if (accessGranted) {
-                const user = await shared.getUserByUsername(username)
-                if (_.isEqual(user.userType, UserTypes.Admin)) {
-                    res.send('admin') //change to redirect
-                    return
-                }
-
+                const user = await shared.getUserByUsername(username);
+                req.session.user = user;
+                req.session.save();
+                // console.log(req.session);
+                
                 switch (user.userType) {
                     case UserTypes.Admin:
-                        res.send('admin');
+                        res.redirect(`/admin/${user._id}`);
                         break;
                     case UserTypes.Waiter:
                         res.redirect(`/waiter/${user._id}`);
                         break;
                     default:
-                        res.send('admin');
+                        res.status(404).send('User type Not found');
                         break;
                 }
-
                 // success.body.user = grantedUser;
                 // req.session.user = grantedUser;
                 // res.send(success);
@@ -54,14 +51,9 @@ module.exports = function (models) {
         }
     }
 
-    const AddUser = async (req, res) => {
+    const AddUser = async (req, res, done) => {
         const data = req.body || {};
-        let { password, username } = data; //|| 'password';
-        // const { user } = req.session || undefined;
-        // if (!_.isEmpty(user)) {
-        //     success.body.user = user; res.send(success);
-        // }
-
+        let { password, username } = data;
         try {
             await SignUpErrorHandler(data);
             password = await HashPassword(password);
@@ -71,7 +63,7 @@ module.exports = function (models) {
             const userData = {
                 firstName: data.firstName || get.firstName(),
                 lastName: data.lastName || get.lastName(),
-                username: username || faker.internet.userName,
+                username: username || faker.internet.userName(),
                 password: password || 'password',
                 email: data.email || faker.internet.email(),
                 image: faker.internet.avatar(),
@@ -89,18 +81,22 @@ module.exports = function (models) {
                 }
             };
 
-            await shared.createUser(userData);
-
-            const state = {
-                status: 'disabled'
-            }
-
+            const dbUser = await shared.createUser(userData);    
+            
+            if(!_.isEmpty(dbUser)) {
+                res.render('signUp', {
+                    userData, state: {status: 'disabled'}, success: {
+                        message: `Failed to registere account with user ${userData.username}`
+                    }
+                });
+                return done()
+            }        
+            
             res.render('signUp', {
-                userData, state, success: {
+                userData, state: {status: 'disabled'}, success: {
                     message: `Successfully registered account with user ${userData.username}`
                 }
             })
-
             // success.body.user = userData;
             // res.send(success);
 
@@ -115,6 +111,8 @@ module.exports = function (models) {
                 message: message || error.message
             };
             // res.send(fail)
+            console.log(error, '---error');
+            
             res.render('signUp', fail);
         }
 
@@ -143,14 +141,7 @@ module.exports = function (models) {
             let days = await admin.getDays();
             var arr = []
             days.forEach(element => {
-                const howMany = element.waiters.length;
-                element.count = howMany;
-                element.available = 3 - howMany;
                 if (data[element.day] !== undefined) {
-                    element.status = 'checked'
-                    element.waiters.push(id)
-                    element.count++;
-                    element.available--;
                     arr.push({
                         dayId: data[element.day],
                         userId: id,
@@ -168,9 +159,6 @@ module.exports = function (models) {
 
             await admin.createWaiterDays(arr);
             res.redirect(`/waiter/${id}/schedule`)
-            // res.render('waiters/schedule', { days: _.sortBy(days, ['uniqueId']), user })
-
-
         } catch (error) {
             fail.error = {
                 code: fail.statusCode,
