@@ -22,7 +22,7 @@ module.exports = function (models) {
                 req.session.user = user;
                 req.session.save();
                 // console.log(req.session);
-                
+
                 switch (user.userType) {
                     case UserTypes.Admin:
                         res.redirect(`/admin/${user._id}`);
@@ -81,22 +81,26 @@ module.exports = function (models) {
                 }
             };
 
-            const dbUser = await shared.createUser(userData);    
-            
-            if(!_.isEmpty(dbUser)) {
+            const dbUser = await shared.createUser(userData);
+            // if(dbUser && dbUser.message) {
+            //     throw new Error(dbUser.message)
+            // }
+
+
+            (dbUser && dbUser.message) ?
                 res.render('signUp', {
-                    userData, state: {status: 'disabled'}, success: {
-                        message: `Failed to registere account with user ${userData.username}`
+                    state: { status: 'disabled' }, error: {
+                        message: `Failed to register account with user ${userData.username}: ${dbUser.message}`
                     }
-                });
-                return done()
-            }        
-            
-            res.render('signUp', {
-                userData, state: {status: 'disabled'}, success: {
-                    message: `Successfully registered account with user ${userData.username}`
-                }
-            })
+                })
+                :
+                res.render('signUp', {
+                    state: { status: 'disabled' }, success: {
+                        message: `Successfully registered account with user ${userData.username}`
+                    }
+                })
+
+
             // success.body.user = userData;
             // res.send(success);
 
@@ -112,7 +116,7 @@ module.exports = function (models) {
             };
             // res.send(fail)
             console.log(error, '---error');
-            
+
             res.render('signUp', fail);
         }
 

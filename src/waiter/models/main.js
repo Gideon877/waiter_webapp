@@ -51,7 +51,8 @@ module.exports = function (mongoUrl) {
         timestamp: {
             created: { type: String, required: true, unique: false },
             lastUpdated: { type: String, required: true, unique: false },
-        }
+        },
+        status: { type: String, required: true }
     })
 
     const Comments = mongoose.model('Comments', {

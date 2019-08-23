@@ -20,7 +20,7 @@ module.exports = (models) => {
     }
 
     const createUser = async (userData) => {
-        const user = await getUserByUsername(userData.username);
+        const user = await getUserByUsername(userData.username);        
         if(_.isEmpty(user)) {
             return User.create(userData);
         }

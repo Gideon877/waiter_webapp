@@ -14,8 +14,8 @@ module.exports = function (models) {
             res.redirect(`/waiter/${user._id}`);
         } else {
             try {
-                // await admin.addDays();
-                // await admin.addUsers();
+                await admin.addDays();
+                await admin.addUsers();
                 res.render('home');
             } catch (error) {
                 // console.log(error.message);
