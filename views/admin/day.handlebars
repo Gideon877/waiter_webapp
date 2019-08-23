@@ -33,11 +33,18 @@
                 <div class="card-body">
                     <h5 class="card-title">Special title treatment</h5>
                     <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                    <a href="/admin/{{user._id}}/schedule" class="btn btn-primary">Schedule</a>
+                    <br>
+                    <div class="list-group">
+                        {{#each users}}
+                        <a href="#" class="list-group-item list-group-item-action list-group-item-success"> {{this.firstName}} {{this.lastName}} </a>
+                        {{/each}}
+                    </div>
+                    <br>
+                    {{!-- <a href="/admin/{{user._id}}/schedule" class="btn btn-primary">Schedule</a> --}}
                 </div>
-                <div class="card-footer text-muted">
+                {{!-- <div class="card-footer text-muted">
                     2 days ago
-                </div>
+                </div> --}}
             </div>
 
             {{#if error}}

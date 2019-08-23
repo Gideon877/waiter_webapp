@@ -17,6 +17,15 @@ module.exports = models => {
         return Days.find();
     }
 
+    const getDaysByDayName = async (day) => {
+        return Days.findOne({day}).then(result => {
+            return result._id
+        })
+    }
+
+    const getWaitersByDayId = (dayId) => {
+        return WaiterDays.find({dayId})
+    }
     const getWaiterDaysByUserId = async (userId) => {
         return WaiterDays.find({ userId });
     }
@@ -108,6 +117,8 @@ module.exports = models => {
         getWaiterDaysByUserId,
         removeWaiterDaysByUserId,
         createWaiterDays,
-        findWaiterDays
+        findWaiterDays,
+        getDaysByDayName,
+        getWaitersByDayId
     };
 };

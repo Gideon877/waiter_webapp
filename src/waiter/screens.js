@@ -14,8 +14,8 @@ module.exports = function (models) {
             res.redirect(`/waiter/${user._id}`);
         } else {
             try {
-                await admin.addDays();
-                await admin.addUsers();
+                // await admin.addDays();
+                // await admin.addUsers();
                 res.render('home');
             } catch (error) {
                 // console.log(error.message);
@@ -34,23 +34,13 @@ module.exports = function (models) {
     }
 
     const waiterHome = async (req, res, done) => {
-        const { id } = req.params;
-        const user = await shared.getUserById(id);
-        if (_.isEmpty(id) || _.isEmpty(user)) {
-            res.redirect('/login');
-            return done();
-        }
-        // req.session.user = user;
-        // req.session.save();
-
-        res.render('waiters', {
-            user
-        })
+        const user = req.session.user; // await shared.getUserById(req.params.id);
+        (_.isEmpty(req.params.id) || _.isEmpty(user)) ? res.redirect('/login') : res.render('waiters', { user })
     }
 
     const inboxScreen = async (req, res, done) => {
         const { id } = req.params;
-        const user = await shared.getUserById(id);
+        const user = req.session.user; //await shared.getUserById(id);
         if (_.isEmpty(id) || _.isEmpty(user)) {
             res.redirect('/login');
             return done();
@@ -69,7 +59,7 @@ module.exports = function (models) {
     }
     const friendsScreen = async (req, res, done) => {
         const { id } = req.params;
-        const user = await shared.getUserById(id);
+        const user = req.session.user; //await shared.getUserById(id);
         if (_.isEmpty(id) || _.isEmpty(user)) {
             res.redirect('/login');
             return done();
@@ -88,7 +78,7 @@ module.exports = function (models) {
     }
     const profileScreen = async (req, res, done) => {
         const { id } = req.params;
-        const user = await shared.getUserById(id);
+        const user = req.session.user; //await shared.getUserById(id);
         if (_.isEmpty(id) || _.isEmpty(user)) {
             res.redirect('/login');
             return done();
@@ -120,7 +110,7 @@ module.exports = function (models) {
     }
     const scheduleScreen = async (req, res, done) => {
         const { id } = req.params;
-        const user = await shared.getUserById(id);
+        const user = req.session.user; //await shared.getUserById(id);
         // console.log(user, 'user');
 
         if (_.isEmpty(id) || _.isEmpty(user)) {
@@ -177,23 +167,38 @@ module.exports = function (models) {
         })
     }
 
-    const adminScreen = async (req, res, done) => {
-        const user = await shared.getUserById(req.params.id);
+    const adminScreen = async (req, res) => {
+        const user = req.session.user; //await shared.getUserById(req.params.id);
         (user) ? res.render('admin/admin', { user }) : res.redirect(('/login'));
     }
 
-    const getDay = async (req, res, done) => {
+    const getDay = async (req, res) => {
         const { id, day } = req.params;
-        const user = await shared.getUserById(id);
-
+        const user = req.session.user; //await shared.getUserById(id);
         try {
             if (_.isEmpty(user))
                 throw new Error('User not defined')
+            const dayId = await admin.getDaysByDayName(day);
+            const usersIds = await admin.getWaitersByDayId(dayId);
+            const users= await getUsers(usersIds);
+            console.log(users.length, users[0]);
             
-            res.render('admin/day', { user, day })
+            res.render('admin/day', { user, day, users })
         } catch (error) {
             res.redirect(`/admin/${id}/schedule`)
         }
+    }
+
+     function getUsers(data) {
+        var users = [];
+        data.forEach(async(element) => {
+            let {userId} = element;
+            let user = await shared.getUserById(userId);
+            if(!_.isEmpty(user)) {
+                users.push(user);
+            }
+        })
+        return users;
     }
 
     return {

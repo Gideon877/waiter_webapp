@@ -20,7 +20,7 @@ module.exports = function (models) {
             if (accessGranted) {
                 const user = await shared.getUserByUsername(username);
                 req.session.user = user;
-                req.session.save();
+                // req.session.save();
                 // console.log(req.session);
 
                 switch (user.userType) {

@@ -36,14 +36,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json())
 // app.use(session({cookieName: 'session', secret: 'random_string_goes_here', duration: 30 * 60 * 1000, activeDuration: 5 * 60 * 1000,}));
 app.use(session({
-    secret: 'keyboard cat',
-    cookie: {
-        httpOnly: false,
-        maxAge: 60000 * 30,
-        secure: true
-    },
-    resave: true,
-    saveUninitialized: true
+    secret: 'keyboard cat'
 }));
 app.use(flash()); // set up http session
 
