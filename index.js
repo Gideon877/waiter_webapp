@@ -4,11 +4,18 @@ const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
 const flash = require('express-flash');
 const session = require('express-session');
+const moment = require('moment');
 
-const Route = require('./javascript/app');
-const Models = require('./models/models');
+
+// const Route = require('./src/app');
+const Route = require('./src/waiter/steps');
+const Screen = require('./src/waiter/screens');
+// const Handler = require('./src/waiter/handler');
+const Models = require('./src/waiter/models/main');
 const models = Models(process.env.MONGO_DB_URL || 'mongodb://localhost/waiters');
+
 const route = Route(models);
+const screen = Screen(models);
 const app = express();
 
 app.set("port", (process.env.PORT || 4444))
@@ -31,36 +38,59 @@ app.use(bodyParser.json())
 app.use(session({
     secret: 'keyboard cat',
     cookie: {
-        maxAge: 60000 * 30
+        httpOnly: false,
+        maxAge: 60000 * 30,
+        secure: true
     },
     resave: true,
     saveUninitialized: true
 }));
 app.use(flash()); // set up http session
 
+// home page
+app.get('/', screen.homePage)
+
 // registration page
-app.get('/', function(req, res) {
-    res.render('home');
-});
-app.post('/', route.home);
+app.get('/signUp', screen.signUp);
+app.post('/signUp', route.Register);
 
 //logout screen
 app.get('/logout', function(req, res) {
+    const timestamp = moment.utc().local().format();
+    let user = req.session;
+    if(user && user.timestamp) {
+        user.timestamp.lastSeen = timestamp;
+    }
     req.session.destroy();
     res.redirect('/login');
 });
 
 // login page
-app.get('/login', route.sign_in);
-app.post('/login', route.login);
+app.get('/login', screen.signIn);
+app.post('/signIn', route.signIn);
+
+// app.post('/add', route.addDays);
 
 // waiter page
-app.get('/waiters/:user_id', route.dashboard);
-app.post('/waiters/:user_id', route.waiters);
+app.get('/waiter/:id', screen.waiter)
+app.get('/waiter/:id/profile', screen.profile);
+app.get('/waiter/:id/inbox', screen.inbox);
+app.get('/waiter/:id/schedule', screen.schedule);
+app.get('/waiter/:id/friends', screen.friends);
+
+app.post('/waiter/:id/schedule', route.schedule);
+
+// app.post('/waiter', handler.waiterHome);
+// app.post('/waiter/:user_id', route.waiters);
 
 // admin page
-app.get('/days', route.days);
-app.get('/reset', route.reset);
+app.get('/admin/:id', screen.admin);
+app.get('/admin/:id/profile', screen.profile);
+app.get('/admin/:id/inbox', screen.inbox);
+app.get('/admin/:id/schedule', screen.schedule);
+app.get('/admin/:id/employee', screen.friends);
+app.get('/admin/:id/schedule/:day', screen.day);
+// app.get('/reset', route.reset);
 
 var port = app.get("port");
 

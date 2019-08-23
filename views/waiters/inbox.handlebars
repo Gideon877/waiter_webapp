@@ -1,5 +1,5 @@
 <div class="container">
-    <h2>Timeline</h2>
+    <h2>Inbox</h2>
     <div class="row">
 
         <hr>
@@ -13,9 +13,9 @@
         <!-- left column -->
         <div class="col-md-3">
             <div class="list-group">
-                <a href="/waiter/{{user._id}}" class="list-group-item list-group-item-action active">Home</a>
+               <a href="/waiter/{{user._id}}" class="list-group-item list-group-item-action">Home</a>
                 <a href="/waiter/{{user._id}}/profile" class="list-group-item list-group-item-action">Profile</a>
-                <a href="/waiter/{{user._id}}/inbox" class="list-group-item list-group-item-action">Inbox</a>
+                <a href="/waiter/{{user._id}}/inbox" class="list-group-item list-group-item-action active">Inbox</a>
                 <a href="/waiter/{{user._id}}/friends" class="list-group-item list-group-item-action">Friends</a>
                 <a href="/waiter/{{user._id}}/schedule" class="list-group-item list-group-item-action">Weekly schedule</a>
                 <a href="/logout" class="list-group-item list-group-item-danger">Logout</a>
@@ -23,7 +23,11 @@
         </div>
 
         <div class="col-md-9">
-            {{!-- <h2>Home timeline</h2> --}}
+            <ul class="list-group list-group-flush">
+                {{#each messages}}
+                <a href="/admin/learners/{{this._id}}" class="list-group-item">{{this.firstName}} {{this.lastName}}<span class="badge badge-light">4</span></a>
+                {{/each}}
+            </ul>
         </div>
     </div>
 </div>

@@ -4,5 +4,5 @@ yarn add express-flash;
 yarn add express-handlebars;
 yarn add express-session;
 yarn add mongoose;
-yarn add nodemon;
 yarn add semantic-ui;
+yarn add --dev nodemon;

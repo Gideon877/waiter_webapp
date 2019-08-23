@@ -1,0 +1,35 @@
+<div class="container">
+    <h2>Friends</h2>
+    <div class="row">
+
+        <hr>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/admin/{{user._id}}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{user.firstName}} {{user.lastName}}</a></li>
+            </ol>
+        </nav>
+        <hr>
+        <!-- left column -->
+        <div class="col-md-3">
+            <div class="list-group">
+                <a href="/admin/{{user._id}}" class="list-group-item list-group-item-action">Home</a>
+                <a href="/admin/{{user._id}}/profile" class="list-group-item list-group-item-action">Profile</a>
+                <a href="/admin/{{user._id}}/inbox" class="list-group-item list-group-item-action">Inbox</a>
+                <a href="/admin/{{user._id}}/employee" class="list-group-item list-group-item-action active">Employee</a>
+                <a href="/admin/{{user._id}}/schedule" class="list-group-item list-group-item-action">Weekly
+                    schedule</a>
+                <a href="/logout" class="list-group-item list-group-item-danger">Logout</a>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            {{!-- <h5>Friends</h5> --}}
+            <ul class="list-group list-group-flush">
+                {{#each friends}}
+                <a href="/admin/learners/{{this._id}}" class="list-group-item">{{this.firstName}} {{this.lastName}}</a>
+                {{/each}}
+            </ul>
+        </div>
+    </div>
+</div>

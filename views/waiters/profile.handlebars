@@ -1,0 +1,195 @@
+<div class="container">
+    <h2>Profile</h2>
+    <div class="row">
+
+        <hr>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/waiter/{{user._id}}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{user.firstName}} {{user.lastName}}</a></li>
+            </ol>
+        </nav>
+        <hr>
+        <!-- left column -->
+
+                    <div class="col-md-3">
+                        <div class="list-group">
+                            <a href="/waiter/{{user._id}}" class="list-group-item list-group-item-action">Home</a>
+                            <a href="/waiter/{{user._id}}/profile"
+                                class="list-group-item list-group-item-action active">Profile</a>
+                            <a href="/waiter/{{user._id}}/inbox"
+                                class="list-group-item list-group-item-action">Inbox</a>
+                            <a href="/waiter/{{user._id}}/friends"
+                                class="list-group-item list-group-item-action">Friends</a>
+                            <a href="/waiter/{{user._id}}/schedule"
+                                class="list-group-item list-group-item-action">Weekly
+                                schedule</a>
+                            <a href="/logout" class="list-group-item list-group-item-danger">Logout</a>
+                        </div>
+                    </div>
+                    {{!-- center column --}}
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <img src="{{user.image}}" class="avatar img-circle" alt="avatar">
+                            <h6>@{{user.username}}</h6>
+                            {{!-- <img src="//placehold.it/100" class="avatar img-circle" alt="avatar"> --}}
+                            <h6>Upload a different photo...</h6>
+                            <input type="file" class="form-control" disabled>
+                        </div>
+                    </div>
+
+                    <!-- edit form column -->
+                    <div class="col-md-6 personal-info">
+                        <div class="alert alert-info alert-dismissable">
+                            <a class="panel-close close" data-dismiss="alert">×</a>
+                            <i class="fa fa-coffee"></i>
+                            This is an <strong>.alert</strong>. Use this to show important messages to the user.
+                        </div>
+                        <h3>Personal info</h3>
+
+                        <form class="form-horizontal" role="form" action="#" method="POST">
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label">First name:</label>
+                                <div class="col-lg-8">
+                                    <input class="form-control" type="text" name="firstName" value="{{user.firstName}}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label">Last name:</label>
+                                <div class="col-lg-8">
+                                    <input class="form-control" type="text" name="lastName" value="{{user.lastName}}">
+                                </div>
+                            </div>
+                            {{!-- <div class="form-group">
+                                <label class="col-lg-3 control-label">Company:</label>
+                                <div class="col-lg-8">
+                                    <input class="form-control" type="text" value="">
+                                </div>
+                            </div> --}}
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label">Email:</label>
+                                <div class="col-lg-8">
+                                    <input class="form-control" type="text" name="email" value="{{user.email}}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Username:</label>
+                                <div class="col-md-8">
+                                    <input class="form-control" type="text" name="username" value="{{user.username}}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label">User Type</label>
+                                <div class="col-lg-8">
+                                    <div class="ui-select">
+                                        <select id="user_time_zone" class="form-control" disabled>
+                                            <option name="userType" value="ADMIN">Admin</option>
+                                            <option name="userType" value="WAITER" selected>Waiter</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Password:</label>
+                                <div class="col-md-8">
+                                    <input class="form-control" type="password" name="password" value="{{user.password}}" disabled>
+                                </div>
+                            </div>
+                            {{!-- <div class="form-group">
+                                <label class="col-md-3 control-label">Confirm password:</label>
+                                <div class="col-md-8">
+                                    <input class="form-control" type="password" name="password" value="{{user.password}}">
+                                </div>
+                            </div> --}}
+                            <div class="form-group">
+                                <label class="col-md-3 control-label"></label>
+                                <div class="col-md-8">
+                                    <input type="button" class="btn btn-primary" value="Save Changes">
+                                    <span></span>
+                                    <input type="reset" class="btn btn-default" value="Cancel">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <hr>
+
+
+
+
+
+
+
+
+            {{!-- <div class="card text-white bg-info mb-3" style="max-width: 540px;">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+                        <img src="{{user.image}}" class="card-img" alt="...">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">{{user.firstName}} {{user.lastName}}</h5>
+                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
+                                additional content. This content is a little bit longer.</p>
+                            {{#if user.timestamp}}
+                            <p class="card-text"><small class="text-muted">Last updated
+                                    {{user.timestamp.lastUpdated}}</small></p>
+                            {{/if}}
+                        </div>
+                    </div>
+                </div>
+            </div> --}}
+            {{!-- <hr> --}}
+            {{!-- <form action="#" method="POST">
+            <div class="form-group row">
+                <label for="firstName" class="col-sm-2 col-form-label">Firstname</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="firstName" value="{{user.firstName}}" id="firstName" placeholder="Firstname" {{state.status}}>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="lastName" class="col-sm-2 col-form-label">Lastname</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="lastName" value="{{user.lastName}}" id="lastName" placeholder="Lastname" {{state.status}}>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="username" class="col-sm-2 col-form-label">Username</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="username" value="{{user.username}}" id="username" placeholder="Username" {{state.status}}>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="email" class="col-sm-2 col-form-label">Email</label>
+                <div class="col-sm-10">
+                    <input type="email" class="form-control" name="email" value="{{user.email}}" id="email" placeholder="Email" {{state.status}}>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="password" class="col-sm-2 col-form-label">Password</label>
+                <div class="col-sm-10">
+                    <input type="password" class="form-control" name="password" value="{{user.password}}" id="password" placeholder="Password" {{state.status}}>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-10">
+                    <button type="submit" class="btn btn-primary" {{state.status}}>Update</button>
+                    <a href="#" type="submit" class="btn btn-warning" {{state.status}}>Delete</a>
+                </div>
+            </div>
+            {{#if error}} 
+            <div class="alert alert-danger" role="alert">
+                {{error.message}}
+            </div>
+            {{/if}}
+            {{#if success}} 
+            <div class="alert alert-success" role="alert">
+                {{success.message}}
+            </div>
+            {{/if}}
+        </form> --}}
+        {{!-- </div> --}}
+    </div>
+</div>
