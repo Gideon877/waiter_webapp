@@ -69,8 +69,6 @@ app.get('/logout', function(req, res) {
 app.get('/login', screen.signIn);
 app.post('/signIn', route.signIn);
 
-// app.post('/add', route.addDays);
-
 // waiter page
 app.get('/waiter/:id', screen.waiter)
 app.get('/waiter/:id/profile', screen.profile);
