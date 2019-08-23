@@ -1,0 +1,50 @@
+<div class="container">
+    <h2>Schedule</h2>
+    <div class="row">
+
+        <hr>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/admin/{{user._id}}">Home</a></li>
+                <li class="breadcrumb-item" aria-current="page"><a href="/admin/{{user._id}}/schedule">Schedule</a></a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">{{day}}</a></li>
+            </ol>
+        </nav>
+        <hr>
+        <!-- left column -->
+        <div class="col-md-3">
+            <div class="list-group">
+                <a href="/admin/{{user._id}}" class="list-group-item list-group-item-action">Home</a>
+                <a href="/admin/{{user._id}}/profile" class="list-group-item list-group-item-action">Profile</a>
+                <a href="/admin/{{user._id}}/inbox" class="list-group-item list-group-item-action">Inbox</a>
+                <a href="/admin/{{user._id}}/employee" class="list-group-item list-group-item-action">Employees</a>
+                <a href="/admin/{{user._id}}/schedule" class="list-group-item list-group-item-action active">Weekly
+                    schedule</a>
+                <a href="/logout" class="list-group-item list-group-item-danger">Logout</a>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <div class="card border-secondary text-center">
+                <div class="card-header">
+                    <h3>{{day}}</h3>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Special title treatment</h5>
+                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                    <a href="/admin/{{user._id}}/schedule" class="btn btn-primary">Schedule</a>
+                </div>
+                <div class="card-footer text-muted">
+                    2 days ago
+                </div>
+            </div>
+
+            {{#if error}}
+            <div class="alert alert-danger" role="alert">
+                {{error.message}}
+            </div>
+            {{/if}}
+        </div>
+    </div>
+</div>

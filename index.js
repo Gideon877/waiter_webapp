@@ -79,6 +79,7 @@ app.get('/waiter/:id/schedule', screen.schedule);
 app.get('/waiter/:id/friends', screen.friends);
 
 app.post('/waiter/:id/schedule', route.schedule);
+
 // app.post('/waiter', handler.waiterHome);
 // app.post('/waiter/:user_id', route.waiters);
 
@@ -88,6 +89,7 @@ app.get('/admin/:id/profile', screen.profile);
 app.get('/admin/:id/inbox', screen.inbox);
 app.get('/admin/:id/schedule', screen.schedule);
 app.get('/admin/:id/employee', screen.friends);
+app.get('/admin/:id/schedule/:day', screen.day);
 // app.get('/reset', route.reset);
 
 var port = app.get("port");

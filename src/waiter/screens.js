@@ -35,7 +35,7 @@ module.exports = function (models) {
 
     const waiterHome = async (req, res, done) => {
         const { id } = req.params;
-        const { user } = req.session;
+        const user = await shared.getUserById(id);
         if (_.isEmpty(id) || _.isEmpty(user)) {
             res.redirect('/login');
             return done();
@@ -50,7 +50,7 @@ module.exports = function (models) {
 
     const inboxScreen = async (req, res, done) => {
         const { id } = req.params;
-        const { user } = req.session;
+        const user = await shared.getUserById(id);
         if (_.isEmpty(id) || _.isEmpty(user)) {
             res.redirect('/login');
             return done();
@@ -59,17 +59,17 @@ module.exports = function (models) {
         const messages = await shared.getUser(); //placeholder
 
         let type = user.userType.toLowerCase();
-        if(type == 'waiter') {
+        if (type == 'waiter') {
             type = type + "s"
         }
-        
+
         res.render(`${type}/inbox`, {
             user, messages
         })
     }
     const friendsScreen = async (req, res, done) => {
         const { id } = req.params;
-        const { user } = req.session;
+        const user = await shared.getUserById(id);
         if (_.isEmpty(id) || _.isEmpty(user)) {
             res.redirect('/login');
             return done();
@@ -77,10 +77,10 @@ module.exports = function (models) {
 
         const friends = await shared.getUser();
         let type = user.userType.toLowerCase();
-        if(type == 'waiter') {
+        if (type == 'waiter') {
             type = type + "s"
         }
-        
+
         res.render(`${type}/friends`, {
             user,
             friends
@@ -88,7 +88,7 @@ module.exports = function (models) {
     }
     const profileScreen = async (req, res, done) => {
         const { id } = req.params;
-        const { user } = req.session;
+        const user = await shared.getUserById(id);
         if (_.isEmpty(id) || _.isEmpty(user)) {
             res.redirect('/login');
             return done();
@@ -109,10 +109,10 @@ module.exports = function (models) {
         }
 
         let type = user.userType.toLowerCase();
-        if(type == 'waiter') {
+        if (type == 'waiter') {
             type = type + "s"
         }
-        
+
         res.render(`${type}/profile`, {
             user,
             state
@@ -120,9 +120,9 @@ module.exports = function (models) {
     }
     const scheduleScreen = async (req, res, done) => {
         const { id } = req.params;
-        const user = req.session.user;
-        console.log(req.session, 'req.session.user');
-        
+        const user = await shared.getUserById(id);
+        // console.log(user, 'user');
+
         if (_.isEmpty(id) || _.isEmpty(user)) {
             res.redirect('/login');
             return done();
@@ -137,9 +137,10 @@ module.exports = function (models) {
             element.count = howMany;
             element.available = 3 - howMany;
             var day = new Date();
-            const count = day.getDay(); // 2
-            const dayCount = 0;
-            
+            // const count = day.getDay(); // 2
+            // const dayCount = 0;
+            element.userId = user._id
+
             data.forEach(val => {
                 if (val.dayId == element._id) {
                     element.waiters.push(id)
@@ -151,35 +152,48 @@ module.exports = function (models) {
                 }
             })
 
-            if(dayCount < count) {
-                // element.status = 'disabled'
-            }
+            // if (dayCount < count) {
+            //     // element.status = 'disabled'
+            // }
 
-            if(element.available > 2) {
+            if (element.available > 2) {
                 element.styleColor = 'green'
-            } else if(element.available <= 0) {
+            } else if (element.available <= 0) {
                 element.status += " disabled"
                 element.available = 0
-            } else if(element.available == 2) {
+            } else if (element.available == 2) {
                 element.styleColor = 'orange'
             } else {
                 element.styleColor = 'red';
             }
         });
         let type = user.userType.toLowerCase();
-        if(type == 'waiter') {
+        if (type == 'waiter') {
             type = type + "s"
         }
-        
         res.render(`${type}/schedule`, {
             user,
             days: _.sortBy(days, ['uniqueId']),
         })
     }
 
-    const adminScreen = (req, res, done) => {
-        const { user } = req.session;
+    const adminScreen = async (req, res, done) => {
+        const user = await shared.getUserById(req.params.id);
         (user) ? res.render('admin/admin', { user }) : res.redirect(('/login'));
+    }
+
+    const getDay = async (req, res, done) => {
+        const { id, day } = req.params;
+        const user = await shared.getUserById(id);
+
+        try {
+            if (_.isEmpty(user))
+                throw new Error('User not defined')
+            
+            res.render('admin/day', { user, day })
+        } catch (error) {
+            res.redirect(`/admin/${id}/schedule`)
+        }
     }
 
     return {
@@ -191,6 +205,7 @@ module.exports = function (models) {
         friends: friendsScreen,
         inbox: inboxScreen,
         schedule: scheduleScreen,
-        homePage
+        homePage,
+        day: getDay
     }
 }

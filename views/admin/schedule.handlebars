@@ -41,19 +41,19 @@
                             <th scope="row">
                                 {{this.uniqueId}}
                             </th>
-                            <td><a href="/admin/{{this._id}}/schedule">{{this.day}}</a></td>
+                            <td><a href="/admin/{{this.userId}}/schedule/{{this.day}}">{{this.day}}</a></td>
                             <td>{{this.count}}</td>
                             <td>{{this.available}}</td>
                         </tr>
                         {{/each}}
                     </tbody>
                 </table>
-                <div class="form-group row">
+                {{!-- <div class="form-group row">
                     <div class="col-sm-10">
                         <button type="submit" class="btn btn-primary" id="updateBtn">Update</button>
-                        {{!-- <a href="/" type="submit" class="btn btn-warning">Cancel</a> --}}
+                         <a href="/" type="submit" class="btn btn-warning">Cancel</a> 
                     </div>
-                </div>
+                </div> --}}
             </form>
             {{#if error}}
             <div class="alert alert-danger" role="alert">
